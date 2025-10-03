@@ -9,6 +9,10 @@ vim.opt.smartindent = true
 vim.opt.smarttab = true
 vim.opt.list = true
 vim.opt.listchars = "eol:.,tab:>-,trail:~,extends:>,precedes:<"
+vim.opt.spell = true
+-- vim.opt.spelllang = "en-us"
+vim.opt.mouse = "a"
+vim.opt.mousemodel = "popup"
 
 vim.opt.number = true
 vim.opt.relativenumber = true
