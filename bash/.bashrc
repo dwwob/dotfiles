@@ -2,9 +2,6 @@
 [[ $- == *i* ]] && source ~/.local/share/blesh/ble.sh --noattach
 
 
-# Attach ble.sh at the bottom of ~/.bashrc
-[[ ${BLE_VERSION-} ]] && ble-attach
-
 # Sample .bashrc for SUSE Linux
 # Copyright (c) SUSE Software Solutions Germany GmbH
 
@@ -467,6 +464,18 @@ function _update_ps1() {
 if [ "$TERM" != "linux" ] && [ -f "$(which powerline-go)" ]; then
     PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 fi
+
+# Powerline-Go Bash Setup
+function _update_ps1() {
+    PS1="$($(which powerline-go) -error $?)"
+}
+if [ "$TERM" != "linux" ] && [ -f "$(which powerline-go)" ]; then
+    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+fi
+
+# Attach ble.sh at the bottom of ~/.bashrc
+[[ ${BLE_VERSION-} ]] && ble-attach
+
 
 # Powerline-Go Bash Setup
 function _update_ps1() {
