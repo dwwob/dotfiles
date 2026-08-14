@@ -473,8 +473,7 @@ if [ "$TERM" != "linux" ] && [ -f "$(which powerline-go)" ]; then
     PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 fi
 
-# Attach ble.sh at the bottom of ~/.bashrc
-[[ ${BLE_VERSION-} ]] && ble-attach
+
 
 
 # Powerline-Go Bash Setup
@@ -484,3 +483,7 @@ function _update_ps1() {
 if [ "$TERM" != "linux" ] && [ -f "$(which powerline-go)" ]; then
     PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 fi
+
+
+# Attach ble.sh at the bottom of ~/.bashrc
+[[ ${BLE_VERSION-} ]] && ble-attach
