@@ -14,7 +14,7 @@
 # here, since multilingual X sessions would not work properly if LANG is over-
 # ridden in every subshell.
 
-test -s ~/.alias && . ~/.alias || true
+# test -s ~/.alias && . ~/.alias || true
 
 source ~/.local/share/blesh/ble.sh
 
@@ -39,11 +39,3 @@ fi
 [[ ${BLE_VERSION-} ]] && ble-attach
 
 
-
-# Powerline-Go Bash Setup
-function _update_ps1() {
-    PS1="$($(which powerline-go) -error $?)"
-}
-if [ "$TERM" != "linux" ] && [ -f "$(which powerline-go)" ]; then
-    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
-fi
