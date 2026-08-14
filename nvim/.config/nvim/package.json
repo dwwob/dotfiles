@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "eslint": "^10.8.0",
+    "eslint-plugin-tree-sitter": "^0.0.1"
+  }
+}

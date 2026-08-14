@@ -1,0 +1,2 @@
+return 
+{ "rafamadriz/friendly-snippets" }
