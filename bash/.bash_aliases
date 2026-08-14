@@ -57,6 +57,6 @@ alias gl="git log --oneline --graph --decorate"
 
 
 
-echo -e '\n# Powerline-Go Bash Setup\nfunction _update_ps1() {\n    PS1="$($(which powerline-go) -error $?)"\n}\nif [ "$TERM" != "linux" ] && [ -f "$(which powerline-go)" ]; then\n    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"\nfi' >> ~/.bashrc
-
+# echo -e '\n# Powerline-Go Bash Setup\nfunction _update_ps1() {\n    PS1="$($(which powerline-go) -error $?)"\n}\nif [ "$TERM" != "linux" ] && [ -f "$(which powerline-go)" ]; then\n    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"\nfi' >> ~/.bashrc
+#
 
