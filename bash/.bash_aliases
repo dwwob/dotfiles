@@ -38,9 +38,9 @@ alias update="sudo zypper dup "
 # DEVELOPER TOOLS (GIT)
 # ==========================================
 alias gs="git status"
-alias ga="git add"
-alias gc="git commit -m"
-alias gp="git push"
+alias ga="git add ."
+alias gc="git commit -m "
+alias gp="git push -u origin main"
 alias gl="git log --oneline --graph --decorate"
 
 
