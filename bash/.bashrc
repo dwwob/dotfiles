@@ -39,21 +39,6 @@ fi
 [[ ${BLE_VERSION-} ]] && ble-attach
 
 
-# Powerline-Go Bash Setup
-function _update_ps1() {
-    PS1="$($(which powerline-go) -error $?)"
-}
-if [ "$TERM" != "linux" ] && [ -f "$(which powerline-go)" ]; then
-    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
-fi
-
-# Powerline-Go Bash Setup
-function _update_ps1() {
-    PS1="$($(which powerline-go) -error $?)"
-}
-if [ "$TERM" != "linux" ] && [ -f "$(which powerline-go)" ]; then
-    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
-fi
 
 # Powerline-Go Bash Setup
 function _update_ps1() {
