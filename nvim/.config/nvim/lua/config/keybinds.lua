@@ -3,12 +3,6 @@ local keymap = vim.keymap.set
 
 -- Toggle comment on current line using Ctrl + /
 vim.keymap.set("n", "<leader>cc", "gcc", { remap = true, desc = "Toggle Comment" })
----- vim.g.user_emmet_leader_key = " , "
---vim.keymap.set("v", "<leader>xe", require("nvim-emmet").wrap_with_abbreviation, { desc = "Emmet Wrap" })
--- Toggle comment on visual selection using Ctrl + /
-vim.keymap.set("v", "<leader>cc", "gc", { remap = true, desc = "Toggle Comment" })
-
-vim.keymap.set("n", "<leader>nh", ":nohlsearch<CR>", { desc = "Clear search highligath" })
 vim.keymap.set("n", "<leader>w", ":w<CR>", { desc = "save file " })
 vim.keymap.set("n", "<leader>q", ":q<CR>", { desc = "Quit " })
 -- Window navigation
@@ -57,39 +51,3 @@ vim.keymap.set("n", "<leader>u", function()
 	vim.cmd.packadd("nvim.undotree")
 	require("undotree").open()
 end, { desc = "Toggle Builtin Undotree" })
-
--- vim.keymap.set("n", "-", "<cmd>lua MiniFiles.open()<CR>", { desc = "Toggle mini file explorer" })
--- vim.keymap.set("n", "<leader>-", function()
--- 	MiniFiles.open(vim.api.nvim_buf_get_name(0), false)
--- 	MiniFiles.reveal_cwd()
--- end, { desc = " Toggle into currently opened file" })
-
--- vim.keymap.set("n", "<leader>pf", function()
--- 	MiniPick.bultin.files()
--- end, { desc = "Mini file picker" })
-
--- vim.keymap.set("n", "<leader>ps", function()
--- 	MiniPick.builtin.grep({ pattern = vim.fn.expand("<cword>") })
--- end, { desc = " Mini file picker exspand " })
-
--- vim.keymap.set("n", "<leader>vh", function()
--- 	MiniPick.builtin.help()
--- end, { desc = " Mini help " }
-
--- vim.keymap.set("n", "<leader>xx", function()
--- 	MiniExtra.pickers.diagonostic()
--- end, { desc = " Mini Picker " })
-
--- vim.keymap.set("n", "<leader>pk", function()
--- 	MiniExtra.pickers.keymaps()
--- end, { desc = " Search Keymaps " })
---
--- Open MiniFiles in the current working directory
--- vim.keymap.set("n", "<leader>f", function()
--- 	MiniFiles.open()
--- end, { desc = "Open MiniFiles" })
---
--- -- Open MiniFiles focusing on the directory of the currently active file
--- vim.keymap.set("n", "<leader>F", function()
--- 	MiniFiles.open(vim.api.nvim_buf_get_name(0))
--- end, { desc = "Open MiniFiles (Current File)" })
