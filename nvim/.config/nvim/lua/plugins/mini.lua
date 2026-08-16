@@ -31,7 +31,7 @@ return {
 
 			require("mini.doc").setup()
 
-			require("mini.files").setup()
+			-- require("mini.files").setup()
 
 			require("mini.misc").setup()
 

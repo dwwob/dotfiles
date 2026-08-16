@@ -3,6 +3,7 @@ local keymap = vim.keymap.set
 
 -- Toggle comment on current line using Ctrl + /
 vim.keymap.set("n", "<leader>cc", "gcc", { remap = true, desc = "Toggle Comment" })
+-- vim.g.user_emmet_leader_key = " , "
 
 -- Toggle comment on visual selection using Ctrl + /
 vim.keymap.set("v", "<leader>cc", "gc", { remap = true, desc = "Toggle Comment" })
