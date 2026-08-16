@@ -3,8 +3,8 @@ local keymap = vim.keymap.set
 
 -- Toggle comment on current line using Ctrl + /
 vim.keymap.set("n", "<leader>cc", "gcc", { remap = true, desc = "Toggle Comment" })
--- vim.g.user_emmet_leader_key = " , "
-
+---- vim.g.user_emmet_leader_key = " , "
+--vim.keymap.set("v", "<leader>xe", require("nvim-emmet").wrap_with_abbreviation, { desc = "Emmet Wrap" })
 -- Toggle comment on visual selection using Ctrl + /
 vim.keymap.set("v", "<leader>cc", "gc", { remap = true, desc = "Toggle Comment" })
 
@@ -85,11 +85,11 @@ end, { desc = "Toggle Builtin Undotree" })
 -- end, { desc = " Search Keymaps " })
 --
 -- Open MiniFiles in the current working directory
-vim.keymap.set("n", "<leader>f", function()
-	MiniFiles.open()
-end, { desc = "Open MiniFiles" })
-
--- Open MiniFiles focusing on the directory of the currently active file
-vim.keymap.set("n", "<leader>F", function()
-	MiniFiles.open(vim.api.nvim_buf_get_name(0))
-end, { desc = "Open MiniFiles (Current File)" })
+-- vim.keymap.set("n", "<leader>f", function()
+-- 	MiniFiles.open()
+-- end, { desc = "Open MiniFiles" })
+--
+-- -- Open MiniFiles focusing on the directory of the currently active file
+-- vim.keymap.set("n", "<leader>F", function()
+-- 	MiniFiles.open(vim.api.nvim_buf_get_name(0))
+-- end, { desc = "Open MiniFiles (Current File)" })
