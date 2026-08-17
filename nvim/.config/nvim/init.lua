@@ -1,17 +1,24 @@
+-- ============================================
+-- set leader keys before setting up Lazy
+-- ============================================
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- ============================================
 -- require("vim._core.vi2").enable({})
+-- ============================================
 require("config.options")
 require("config.keybinds")
 require("config.lazy")
--- require("config.lsp")
--- require("plugins")
+
+-- ============================================
+-- Setup autoclose plugin
+-- ============================================
 require("autoclose").setup()
 
 require("ibl").setup({
 	indent = {
-		char = "│", -- Set the vertical character line
+		char = "│", -- Set the vertical char acter line
 	},
 	scope = {
 		enabled = true, -- Highlights the current block scope you are working in

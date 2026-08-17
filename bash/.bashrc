@@ -1,7 +1,3 @@
-# Source ble.sh at the top of ~/.bashrc
-[[ $- == *i* ]] && source ~/.local/share/blesh/ble.sh --noattach
-
-
 # Sample .bashrc for SUSE Linux
 # Copyright (c) SUSE Software Solutions Germany GmbH
 
@@ -14,25 +10,43 @@
 # here, since multilingual X sessions would not work properly if LANG is over-
 # ridden in every subshell.
 
-# test -s ~/.alias && . ~/.alias || true
+# =========================================
+# starts blesh but dose not  attach (will attach at bottom of file requires you to have blesh installed or just comment out this line and the blesh line at end of this file)
+# Source ble.sh at the top of ~/.bashrc
+# =========================================
+[[ $- == *i* ]] && source ~/.local/share/blesh/ble.sh --noattach
+#
+# source ~/.local/share/blesh/ble.sh
 
-source ~/.local/share/blesh/ble.sh
+# =========================================
+# test for alias file if it exists
+# =========================================
+test -s ~/.alias && . ~/.alias || true
 
+# =========================================
 # Import custom aliases if the file exists
+# =========================================
 if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+  . ~/.bash_aliases
 fi
 
-if [ -f "${GOPATH}/bin/powerline-go" ]; then
-    function _update_ps1() {
-        PS1=$("${GOPATH}/bin/powerline-go" -error $? -cwd-max-depth 3 -jobs "$(jobs -p | wc -l)")
-    }
-    if [ "${TERM}" != "linux" ]; then
-        PROMPT_COMMAND="_update_ps1; ${PROMPT_COMMAND}"
-    fi
+# =========================================
+# Place your personal configs in a seprate folder and call them here by using the source call ore the short hand . Call
+# =========================================
+# source /path/to/your/config.file
+# or
+# . /path/to/your/config.file
+
+# ========================================
+# call powerline-go configs.
+# ========================================
+# Check if the external configuration file exists before loading it
+if [ -f ~/.powerline-config.sh ]; then
+
+  source ~/.powerline-config.sh
 fi
 
-
-# Attach ble.sh at the bottom of ~/.bashrc
+# ==========================================
+# Attach ble.sh at the bottom of ~/.bashrc comment out if you don't use blesh, make sure this stays at the bottom of this file
+# ==========================================
 [[ ${BLE_VERSION-} ]] && ble-attach
-
