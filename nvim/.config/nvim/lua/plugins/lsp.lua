@@ -1,3 +1,5 @@
+-- ~/.config/nvim/lua/plugins/lsp.lua
+
 return {
 	-- 1. Main Completion Engine
 	{

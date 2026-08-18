@@ -1,4 +1,4 @@
--- ~/.config/nvim/lua/plugins/blink.lua
+-- ~/.config/nvim/lua/plugins/blinkcmp.lua
 return {
 	"saghen/blink.cmp",
 	version = "*", -- Downloads pre-compiled native binaries

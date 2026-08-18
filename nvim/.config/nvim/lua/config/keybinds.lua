@@ -1,53 +1,94 @@
--- ~/.config/nvim/lua/config-keymaps.lua
+-- ~/.config/nvim/lua/config/keybinds.lua
+
+-- ============================================
+-- short hand declaration
+-- ============================================
 local keymap = vim.keymap.set
 
--- Toggle comment on current line using Ctrl + /
-vim.keymap.set("n", "<leader>cc", "gcc", { remap = true, desc = "Toggle Comment" })
-vim.keymap.set("n", "<leader>w", ":w<CR>", { desc = "save file " })
-vim.keymap.set("n", "<leader>q", ":q<CR>", { desc = "Quit " })
+-- =============================================
+-- Toggle comment on current line
+-- =============================================
+keymap("n", "<leader>cc", "gcc", { remap = true, desc = "Toggle Comment" })
+
+-- ============================================
+-- File actions {save and quit}
+-- ============================================
+keymap("n", "<leader>w", ":w<CR>", { desc = "save file " })
+keymap("n", "<leader>q", ":q<CR>", { desc = "Quit " })
+
+--===============================================
 -- Window navigation
+-- ==============================================
 keymap("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
 keymap("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
 keymap("n", "<C-k>", "<C-w>k", { desc = "Go to upper window" })
 keymap("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
 
-vim.keymap.set("n", "<leader>cd", vim.cmd.Ex, { desc = "toggle tree mode" })
+-- ==============================================
+-- Toggle tree mode
+-- ==============================================
+keymap("n", "<leader>cd", vim.cmd.Ex, { desc = "toggle tree mode" })
 
--- Map 'jk' to exit Insert mode
-vim.keymap.set("i", "jk", "<Esc>", { desc = "exit Insert mode", noremap = true, silent = true })
+-- ===============================================
+-- Map 'jk' to exit Insert or visual mode
+-- ===============================================
+keymap({ "i", "v" }, "jk", "<Esc>", { desc = "exit Insert mode", noremap = true, silent = true })
 
+-- ===============================================
 -- replaces selected text WITHOUT losing what you yanked
-vim.keymap.set("x", "p", [["_dp]], { desc = "Paste over selection without losing yanked text" })
+-- ===============================================
+keymap("x", "p", [["_dp]], { desc = "Paste over selection without losing yanked text" })
 
+-- ===============================================
 -- Delete text without saving it to any registers
-vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]], { desc = "Delete without yanking" })
-vim.keymap.set("n", "<C-c>", "nohl<CR>", { desc = "Clear search highlighting", silent = true })
+-- ===============================================
+keymap({ "n", "v" }, "<leader>d", [["_d]], { desc = "Delete without yanking" })
 
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "moves lines down in visual selection" })
-vim.keymap.set("v", "K", ":m '>-2<CR>gv=gv", { desc = "moves lines up in visual selection" })
+-- ===============================================
+-- clear search highlighting
+-- ===============================================
+keymap("n", "<C-c>", "nohl<CR>", { desc = "Clear search highlighting", silent = true })
 
-vim.keymap.set("v", "<", "<gv", { desc = "Unindent and keep selection" })
-vim.keymap.set("v", ">", ">gv", { desc = "Indent and keep selection" })
+-- ===============================================
+-- visual line movements
+-- ===============================================
+keymap("v", "J", ":m '>+1<CR>gv=gv", { desc = "moves lines down in visual selection" })
+keymap("v", "K", ":m '>-2<CR>gv=gv", { desc = "moves lines up in visual selection" })
+keymap("v", "<", "<gv", { desc = "Unindent and keep selection" })
+keymap("v", ">", ">gv", { desc = "Indent and keep selection" })
 
-vim.keymap.set("n", "J", "mzJ'z", { desc = "Join lines without moving cursor" })
-vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "move down in buffer with cursor centered" })
-vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "move up in buffer with cursor centered" })
+-- ===============================================
+-- join lines
+-- ===============================================
+keymap("n", "J", "mzJ'z", { desc = "Join lines without moving cursor" })
 
-vim.keymap.set("n", "n", "nzzzv", { desc = "Next search result cursor centered" })
-vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous search result cursor centered" })
+-- ===============================================
+-- center cursor while moving in buffer
+-- ===============================================
+keymap("n", "<C-d>", "<C-d>zz", { desc = "move down in buffer with cursor centered" })
+keymap("n", "<C-u>", "<C-u>zz", { desc = "move up in buffer with cursor centered" })
+keymap("n", "n", "nzzzv", { desc = "Next search result cursor centered" })
+keymap("n", "N", "Nzzzv", { desc = "Previous search result cursor centered" })
 
-vim.keymap.set(
-	"n",
-	"<leader>s",
-	[[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
-	{ desc = "Replace word cursor" }
-)
-vim.keymap.set("n", "<leader>X", "<cmd>!chmod +x %<CR>", { silent = true, desc = "makes file executable" })
+-- ================================================
+-- replace the word at the cursor
+-- ================================================
+keymap("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace word cursor" })
 
-vim.keymap.set("n", "<leader>re", "<cmd>restart<CR>", { desc = "Restart Neovim (:restart)" })
+-- =================================================
+-- Makes an executable file
+-- =================================================
+keymap("n", "<leader>X", "<cmd>!chmod +x %<CR>", { silent = true, desc = "makes file executable" })
 
--- Native undotree
-vim.keymap.set("n", "<leader>u", function()
+-- =================================================
+-- shortcut to restart nvim
+-- =================================================
+keymap("n", "<leader>re", "<cmd>restart<CR>", { desc = "Restart Neovim (:restart)" })
+
+-- =================================================
+-- Use Neovims Native undotree
+-- =================================================
+keymap("n", "<leader>u", function()
 	vim.cmd.packadd("nvim.undotree")
 	require("undotree").open()
 end, { desc = "Toggle Builtin Undotree" })

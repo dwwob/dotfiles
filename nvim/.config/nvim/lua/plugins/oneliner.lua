@@ -1,3 +1,5 @@
+-- ~/.config/nvim/lua/plugins/oneliner.lua
+
 return {
 	{
 		"ojroques/vim-oscyank",

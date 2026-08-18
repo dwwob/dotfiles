@@ -1,3 +1,5 @@
+-- ~/.config/nvim/lua/plugins/ts-comments.lua
+
 return {
 	"folke/ts-comments.nvim",
 	opts = {},

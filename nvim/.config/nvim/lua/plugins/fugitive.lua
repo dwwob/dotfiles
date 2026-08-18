@@ -1,3 +1,5 @@
+-- ~/.config/nvim/lua/plugins/fugitive.lua
+
 -- return {
 --   "tpope/vim-fugitive",
 --   cmd = { "Git", "G" }, -- Lazy loads the plugin only when you run these commands

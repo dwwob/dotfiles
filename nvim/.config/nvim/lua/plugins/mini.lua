@@ -1,3 +1,5 @@
+-- ~/.config/nvim/lua/plugins/mini.lua
+
 return {
 	{
 		"nvim-mini/mini.nvim",
@@ -29,7 +31,7 @@ return {
 
 			require("mini.keymap").setup()
 
---			require("mini.doc").setup()
+			--			require("mini.doc").setup()
 
 			-- require("mini.files").setup()
 

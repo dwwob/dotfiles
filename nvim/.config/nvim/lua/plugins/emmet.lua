@@ -1,3 +1,5 @@
+-- ~/.config/nvim/lua/plugins/emmet.lua
+
 return {
 	{
 		"olrtg/nvim-emmet",

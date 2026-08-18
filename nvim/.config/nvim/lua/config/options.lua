@@ -1,4 +1,4 @@
--- vim.g.netrm.banner = 0
+vim.g.netrm.banner = 0
 
 vim.opt.number = true
 vim.opt.cursorline = true

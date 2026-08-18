@@ -1,3 +1,5 @@
+-- ~/.config/nvim/lua/plugins/color.lua
+
 return {
 	-- Colorscheme Configuration
 	{

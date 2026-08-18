@@ -1,3 +1,5 @@
+-- ~/.config/nvim/lua/plugins/gotopreview.lua
+
 return {
 	"rmagatti/goto-preview",
 	dependencies = { "rmagatti/logger.nvim" },
