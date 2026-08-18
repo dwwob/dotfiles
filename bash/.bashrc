@@ -41,9 +41,9 @@ fi
 # call powerline-go configs.
 # ========================================
 # Check if the external configuration file exists before loading it
-if [ -f ~/.powerline-config.sh ]; then
+if [ -f ~/.powerlineconfig.sh ]; then
 
-  source ~/.powerline-config.sh
+  source ~/.powerlineconfig.sh
 fi
 
 # ==========================================
