@@ -6,7 +6,7 @@ return {
 		version = false, -- Use false for the main branch, or "*" for stable releases
 		config = function()
 			-- Mini.statusline: Simple and fast statusline
-			require("mini.statusline").setup()
+			-- 			require("mini.statusline").setup()
 
 			-- Mini.pairs: Automatic closing of quotes, brackets, and parentheses
 			require("mini.pairs").setup()

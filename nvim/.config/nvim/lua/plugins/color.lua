@@ -1,39 +1,37 @@
--- ~/.config/nvim/lua/plugins/color.lua
-
+-- ~/.config/nvim/lua/
 return {
-	-- Colorscheme Configuration
 	{
 		"folke/tokyonight.nvim",
-		lazy = false,
-		priority = 1000,
-		opts = {
-			style = "storm", -- Choose: storm, moon, night, or day
-			on_highlights = function(hl, c)
-				-- Make line numbers and sign column highly visible
-				hl.LineNr = { fg = c.comment, bg = c.bg_statusline }
-				hl.CursorLineNr = { fg = c.orange, bold = true }
-				hl.SignColumn = { bg = c.bg_statusline }
+		lazy = false, -- Load immediately on startup
+		priority = 1000, -- Load before all other plugins
+		config = function()
+			require("tokyonight").setup({
+				style = "moon", -- Max color saturation
+				transparent = false,
+				styles = {
+					comments = { italic = true },
+					keywords = { italic = true, bold = true },
+					functions = { bold = true },
+				},
+				on_highlights = function(hl, c)
+					-- 1. Vibrantly bright Cyan Comments
+					hl.Comment = { fg = "#c2d6d6", italic = true }
 
-				-- Make relative numbers brighter than standard comments
-				hl.LineNrAbove = { fg = c.blue2 }
-				hl.LineNrBelow = { fg = c.blue2 }
-			end,
-		},
-		config = function(_, opts)
-			require("tokyonight").setup(opts)
-			vim.cmd([[colorscheme tokyonight]])
+					-- 2. Neon Yellow Active Line Number
+					hl.CursorLineNr = { fg = "#ffca28", bold = true }
+
+					-- 3. ENHANCED: Sharp, high-contrast silver/ice-blue for inactive line numbers
+					hl.LineNr = { fg = "#0000ff" }
+					hl.LineNrAbove = { fg = "#0000ff" }
+					hl.LineNrBelow = { fg = "#0000ff" }
+
+					-- 4. Dynamic background pop for selecting text
+					hl.Visual = { bg = "#3b4261", bold = true }
+				end,
+			})
+
+			-- Execute the color application
+			vim.cmd.colorscheme("tokyonight-moon")
 		end,
-	},
-
-	-- Statusline Configuration
-	{
-		"nvim-lualine/lualine.nvim",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		opts = {
-			options = {
-				theme = "tokyonight", -- Automatically syncs with tokyonight theme
-				globalstatus = true,
-			},
-		},
 	},
 }
