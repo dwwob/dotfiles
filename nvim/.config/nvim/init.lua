@@ -14,7 +14,7 @@ require("config.lazy")
 -- ============================================
 -- Setup autoclose plugin
 -- ============================================
-require("autoclose").setup()
+-- require("autoclose").setup()
 
 require("ibl").setup({
 	indent = {
