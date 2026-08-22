@@ -1,17 +1,27 @@
 -- ~/.config/nvim/lua/plugins/editor.lua
 return {
 	-- =========================================================================
-	-- 1. TELESCOPE.NVIM (FUZZY FINDER)
+	-- 1. TELESCOPE.NVIM (FUZZY FINDER - FIXED WITH MASTER BRANCH)
 	-- =========================================================================
 	{
 		"nvim-telescope/telescope.nvim",
-		tag = "0.1.8",
+		branch = "master", -- FIXED: Explicitly track master branch for modern treesitter compatibility
 		dependencies = { "nvim-lua/plenary.nvim" },
 		keys = {
 			{ "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
 			{ "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
 			{ "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Find Buffers" },
 			{ "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help Tags" },
+			{
+				"<leader>fc",
+				function()
+					require("telescope.builtin").find_files({
+						cwd = vim.fn.stdpath("config"),
+						prompt_title = "Neovim Config Files",
+					})
+				end,
+				desc = "Find Config Files",
+			},
 		},
 		opts = {
 			defaults = {
@@ -72,7 +82,7 @@ return {
 		opts = {
 			width = 120,
 			height = 25,
-			default_mappings = false, -- Managed explicitly above via keys table
+			default_mappings = false,
 			debug = false,
 			opacity = nil,
 			post_open_hook = nil,
@@ -97,7 +107,6 @@ return {
 		"airblade/vim-gitgutter",
 		event = { "BufReadPost", "BufNewFile" },
 		init = function()
-			-- Keep updates snappy when text changes
 			vim.g.gitgutter_diff_base = "HEAD"
 			vim.opt.updatetime = 100
 		end,

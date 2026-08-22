@@ -1,7 +1,7 @@
 -- ~/.config/nvim/lua/plugins/coding.lua
 return {
 	-- =========================================================================
-	-- 1. MASON & NATIVE LSP CONFIGURATION (WITH C / CLANGD SUPPORT)
+	-- 1. MASON & MODERN NATIVE LSP CONFIGURATION (PURE NEOVIM 0.12+ COMPLIANT)
 	-- =========================================================================
 	{
 		"williamboman/mason.nvim",
@@ -13,26 +13,46 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = { "williamboman/mason-lspconfig.nvim" },
 		config = function()
+			-- Connect blink.cmp capabilities globally to Neovim's default LSP pipeline
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-			-- Automatically download servers including clangd for C development
+			-- Automatically download servers from the official catalog definitions
 			require("mason-lspconfig").setup({
-				ensure_installed = { "lua_ls", "ts_ls", "html", "emmet_language_server", "clangd" },
+				ensure_installed = { "lua_ls", "ts_ls", "html", "emmet_ls", "clangd" },
 			})
 
-			-- Register and enable servers natively via Neovim 0.12+ API
-			local servers = { "lua_ls", "ts_ls", "html", "emmet_language_server", "clangd" }
+			-- List every server identifier cleanly mapping to native system properties
+			local servers = { "lua_ls", "ts_ls", "html", "emmet_ls", "clangd" }
 			for _, server in ipairs(servers) do
-				vim.lsp.config(server, {
+				local server_opts = {
 					capabilities = capabilities,
-				})
+					single_file_support = true, -- Forces LSP attachment on standalone files
+				}
+
+				-- Supply explicit metadata so the html binary hooks into standalone layouts
+				if server == "html" then
+					server_opts.filetypes = { "html", "xhtml", "htmldart" }
+					server_opts.init_options = {
+						provideFormatter = true,
+						embeddedLanguages = { css = true, javascript = true },
+						configurationSection = { "html", "css", "javascript" },
+					}
+				end
+
+				-- FIXED: Configures standard filetype hooks for the emmet_ls binary
+				if server == "emmet_ls" then
+					server_opts.filetypes = { "html", "css", "scss", "javascriptreact", "typescriptreact", "vue" }
+				end
+
+				-- Initialize and enable natively without touching deprecated framework tables
+				vim.lsp.config(server, server_opts)
 				vim.lsp.enable(server)
 			end
 		end,
 	},
 
 	-- =========================================================================
-	-- 2. BLINK.CMP (COMPLETION ENGINE) + INLINE SNIPPET PREVIEWERS
+	-- 2. BLINK.CMP (UP-TO-DATE LAYOUT STRUCTURE + SNIPPET PREVIEWERS)
 	-- =========================================================================
 	{
 		"saghen/blink.cmp",
@@ -51,6 +71,18 @@ return {
 			sources = {
 				default = { "lsp", "path", "snippets", "buffer" },
 			},
+			cmdline = {
+				sources = function()
+					local type = vim.fn.getcmdtype()
+					if type == "/" or type == "?" then
+						return { "buffer" }
+					end
+					if type == ":" then
+						return { "cmdline" }
+					end
+					return {}
+				end,
+			},
 			snippets = {
 				preset = "default",
 			},
@@ -58,7 +90,7 @@ return {
 				keyword = { range = "full" },
 				trigger = { show_on_insert_on_trigger_character = true },
 
-				-- Anchors a dynamic snippet preview panel on the right side
+				-- Anchors a dynamic snippet preview panel on the right side of the menu
 				documentation = {
 					auto_show = true,
 					auto_show_delay_ms = 50,
@@ -81,7 +113,7 @@ return {
 	},
 
 	-- =========================================================================
-	-- 3. PAIRS & CLOSES (AUTOPAIRS ONLY - NO AUTOCLOSE CONFLICTS)
+	-- 3. PAIRS & CLOSES (AUTOPAIRS ONLY)
 	-- =========================================================================
 	{
 		"windwp/nvim-autopairs",
@@ -96,13 +128,12 @@ return {
 	},
 
 	-- =========================================================================
-	-- 4. LEGACY EMMET-VIM (CLASSIC TRIGGERS)
+	-- 4. LEGACY EMMET-VIM (CLASSIC EXPANSION TRIGGERS)
 	-- =========================================================================
 	{
 		"mattn/emmet-vim",
 		ft = { "html", "css", "javascriptreact", "typescriptreact", "vue" },
 		init = function()
-			-- Restores your classic leader sequence trigger key map (<C-y>,)
 			vim.g.user_emmet_leader_key = "<C-y>"
 			vim.g.user_emmet_mode = "a"
 		end,
@@ -130,19 +161,16 @@ return {
 	},
 
 	-- =========================================================================
-	-- 6. MINI UTILITIES (CONSOLIDATED WITH CMDLINE)
+	-- 6. MINI UTILITIES
 	-- =========================================================================
 	{
 		"echasnovski/mini.nvim",
 		version = false,
+		event = "VeryLazy",
 		config = function()
 			require("mini.ai").setup()
 			require("mini.surround").setup()
-			require("mini.cmdline").setup({})
-			require("mini.operators").setup({})
-			require("mini.basics").setup({})
-			require("mini.extra").setup({})
-			require("mini.misc").setup({})
+			require("mini.cmdline").setup()
 		end,
 	},
 }
