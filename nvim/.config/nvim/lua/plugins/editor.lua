@@ -46,6 +46,7 @@ return {
 			spec = {
 				{ "<leader>f", group = "Find / Telescope" },
 				{ "<leader>g", group = "Git / Preview" },
+				{ "<leader>e", desc = "Toggle neotree file explorer" },
 			},
 		},
 	},
