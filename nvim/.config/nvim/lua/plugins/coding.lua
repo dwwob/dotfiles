@@ -16,22 +16,20 @@ return {
 			-- Connect blink.cmp capabilities globally to Neovim's default LSP pipeline
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-			-- Automatically download servers from the official catalog definitions
 			require("mason-lspconfig").setup({
 				ensure_installed = { "lua_ls", "ts_ls", "html", "emmet_ls", "clangd" },
 			})
 
-			-- List every server identifier cleanly mapping to native system properties
 			local servers = { "lua_ls", "ts_ls", "html", "emmet_ls", "clangd" }
 			for _, server in ipairs(servers) do
 				local server_opts = {
 					capabilities = capabilities,
-					single_file_support = true, -- Forces LSP attachment on standalone files
+					single_file_support = true, -- Forces LSP attachment on casual standalone files
 				}
 
-				-- Supply explicit metadata so the html binary hooks into standalone layouts
+				-- FIXED: Explicitly provide filetype filters for the native 0.12+ config router
 				if server == "html" then
-					server_opts.filetypes = { "html", "xhtml", "htmldart" }
+					server_opts.filetypes = { "html", "xhtml", "htmldart", "templ" }
 					server_opts.init_options = {
 						provideFormatter = true,
 						embeddedLanguages = { css = true, javascript = true },
@@ -39,12 +37,22 @@ return {
 					}
 				end
 
-				-- FIXED: Configures standard filetype hooks for the emmet_ls binary
+				-- FIXED: Explicitly map the trigger extensions for the emmet_ls language binary
 				if server == "emmet_ls" then
 					server_opts.filetypes = { "html", "css", "scss", "javascriptreact", "typescriptreact", "vue" }
 				end
 
-				-- Initialize and enable natively without touching deprecated framework tables
+				-- FIXED: Explicitly tell lua_ls to attach to Lua files natively
+				if server == "lua_ls" then
+					server_opts.filetypes = { "lua" }
+				end
+
+				-- FIXED: Explicitly tell ts_ls to attach to JS/TS files natively
+				if server == "ts_ls" then
+					server_opts.filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" }
+				end
+
+				-- Initialize and enable natively using core Neovim 12.3+ mechanisms
 				vim.lsp.config(server, server_opts)
 				vim.lsp.enable(server)
 			end
@@ -56,7 +64,7 @@ return {
 	-- =========================================================================
 	{
 		"saghen/blink.cmp",
-		version = "v0.*",
+		version = "1.*",
 		dependencies = { "rafamadriz/friendly-snippets" },
 		opts = {
 			keymap = {
@@ -113,7 +121,7 @@ return {
 	},
 
 	-- =========================================================================
-	-- 3. PAIRS & CLOSES (AUTOPAIRS ONLY)
+	-- 3. PAIRS & CLOSES (AUTOPAIRS ONLY - NO MAPPING INTERFERENCES)
 	-- =========================================================================
 	{
 		"windwp/nvim-autopairs",
@@ -122,7 +130,7 @@ return {
 			local autopairs = require("nvim-autopairs")
 			autopairs.setup({
 				disable_filetype = { "TelescopePrompt" },
-				check_ts = true,
+				check_ts = true, -- Integrates with Treesitter scopes cleanly
 			})
 		end,
 	},
@@ -134,6 +142,7 @@ return {
 		"mattn/emmet-vim",
 		ft = { "html", "css", "javascriptreact", "typescriptreact", "vue" },
 		init = function()
+			-- Restores your classic leader sequence trigger key map (<C-y>,)
 			vim.g.user_emmet_leader_key = "<C-y>"
 			vim.g.user_emmet_mode = "a"
 		end,

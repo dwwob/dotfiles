@@ -1,5 +1,4 @@
--- vim.g.netrm.banner = 0
-
+-- ~/.config/nvim/lua/config/options.lua
 vim.opt.number = true
 vim.opt.cursorline = true
 vim.opt.relativenumber = true
@@ -9,6 +8,10 @@ vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 
 vim.opt.wrap = true
+vim.opt.linebreak = true
+vim.opt.breakindent = true
+vim.opt.breakindentopt = "shift:0,min:40"
+vim.opt.showbreak = "↳ "
 vim.opt.smartindent = true
 vim.opt.inccommand = "split"
 
@@ -17,7 +20,7 @@ vim.opt.splitright = true
 
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
-vim.opt.laststatus = 3
+vim.opt.laststatus = 2
 vim.opt.spell = true
 vim.opt.spelllang = { "en_us" }
 
@@ -35,7 +38,7 @@ vim.opt.scrolloff = 10
 
 vim.opt.colorcolumn = "0"
 vim.opt.signcolumn = "yes"
-vim.o.cmdheight = 1
+vim.o.cmdheight = 2
 vim.opt.termguicolors = true
 vim.opt.updatetime = 250
 

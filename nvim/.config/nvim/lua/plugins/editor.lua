@@ -1,17 +1,19 @@
 -- ~/.config/nvim/lua/plugins/editor.lua
 return {
 	-- =========================================================================
-	-- 1. TELESCOPE.NVIM (FUZZY FINDER - FIXED WITH MASTER BRANCH)
+	-- 1. TELESCOPE.NVIM (FUZZY FINDER - RESOLVED FOR MODERN TREESITTER)
 	-- =========================================================================
 	{
 		"nvim-telescope/telescope.nvim",
-		branch = "master", -- FIXED: Explicitly track master branch for modern treesitter compatibility
+		branch = "master", -- Tracks master branch for modern treesitter compatibility
 		dependencies = { "nvim-lua/plenary.nvim" },
 		keys = {
 			{ "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
 			{ "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
 			{ "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Find Buffers" },
 			{ "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help Tags" },
+
+			-- Dedicated configuration shortcut pointing directly to your active dotfiles
 			{
 				"<leader>fc",
 				function()
@@ -46,47 +48,29 @@ return {
 			spec = {
 				{ "<leader>f", group = "Find / Telescope" },
 				{ "<leader>g", group = "Git / Preview" },
-				{ "<leader>e", desc = "Toggle neotree file explorer" },
+				{ "<leader>e", desc = "Toggle File Explorer" },
 			},
 		},
 	},
 
 	-- =========================================================================
-	-- 3. GOTO-PREVIEW (FLOATING DEFINITION WINDOWS)
+	-- 3. NATIVE DEFINITION SPLIT (BOTTOM VIEW - REPLACES GOTO-PREVIEW FLOATS)
 	-- =========================================================================
 	{
-		"rmagatti/goto-preview",
+		"neovim/nvim-lspconfig",
 		event = "LspAttach",
 		keys = {
+			-- FIXED: Automatically opens a horizontal split window at the very bottom
 			{
 				"<leader>gpd",
-				"<cmd>lua require('goto-preview').goto_preview_definition()<cr>",
-				desc = "Preview Definition",
-			},
-			{
-				"<leader>gpt",
-				"<cmd>lua require('goto-preview').goto_preview_type_definition()<cr>",
-				desc = "Preview Type Definition",
-			},
-			{
-				"<leader>gpi",
-				"<cmd>lua require('goto-preview').goto_preview_implementation()<cr>",
-				desc = "Preview Implementation",
+				"<cmd>botright split | lua vim.lsp.buf.definition()<cr>",
+				desc = "Definition at Bottom",
 			},
 			{
 				"<leader>gpr",
-				"<cmd>lua require('goto-preview').goto_preview_references()<cr>",
-				desc = "Preview References",
+				"<cmd>botright split | lua vim.lsp.buf.references()<cr>",
+				desc = "References at Bottom",
 			},
-			{ "<leader>gpc", "<cmd>lua require('goto-preview').close_all_win()<cr>", desc = "Close All Previews" },
-		},
-		opts = {
-			width = 120,
-			height = 25,
-			default_mappings = false,
-			debug = false,
-			opacity = nil,
-			post_open_hook = nil,
 		},
 	},
 
@@ -108,6 +92,7 @@ return {
 		"airblade/vim-gitgutter",
 		event = { "BufReadPost", "BufNewFile" },
 		init = function()
+			-- Snappy visual update loops when buffer content modifications occur
 			vim.g.gitgutter_diff_base = "HEAD"
 			vim.opt.updatetime = 100
 		end,
