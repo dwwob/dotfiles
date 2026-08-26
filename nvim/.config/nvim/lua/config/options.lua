@@ -6,12 +6,13 @@ vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
+vim.opt.fileencoding = "utf-8"
 
 vim.opt.wrap = true
 vim.opt.linebreak = true
 vim.opt.breakindent = true
 vim.opt.breakindentopt = "shift:0,min:40"
-vim.opt.showbreak = "↳ "
+-- vim.opt.showbreak = "↳ "
 vim.opt.smartindent = true
 vim.opt.inccommand = "split"
 

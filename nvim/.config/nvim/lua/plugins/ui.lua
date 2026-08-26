@@ -80,6 +80,8 @@ return {
 						icon = "",
 						color = { fg = "#00f0ff", gui = "bold" }, -- Vivid neon blue label
 					},
+					"encoding",
+					"fileformat",
 					"filetype",
 				},
 				lualine_y = { "progress" },

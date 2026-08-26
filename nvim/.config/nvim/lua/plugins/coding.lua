@@ -143,7 +143,7 @@ return {
 		ft = { "html", "css", "javascriptreact", "typescriptreact", "vue" },
 		init = function()
 			-- Restores your classic leader sequence trigger key map (<C-y>,)
-			vim.g.user_emmet_leader_key = "<C-y>"
+			vim.g.user_emmet_leader_key = ","
 			vim.g.user_emmet_mode = "a"
 		end,
 	},
