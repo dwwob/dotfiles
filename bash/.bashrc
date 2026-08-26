@@ -9,6 +9,13 @@
 # NOTE: It is recommended to make language settings in ~/.profile rather than
 # here, since multilingual X sessions would not work properly if LANG is over-
 # ridden in every subshell.
+# Silence the standalone system tTY tool reporting errors during Yakuake tab mapping
+if [[ "$TERM" == "xterm-256color" || "$yakuake" || "$KONSOLE_VERSION" ]]; then
+    function tty() {
+        command tty "$@" 2>/dev/null
+    }
+fi
+# 
 
 # =========================================
 # starts blesh but dose not  attach (will attach at bottom of file requires you to have blesh installed or just comment out this line and the blesh line at end of this file)
