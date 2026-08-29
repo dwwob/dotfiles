@@ -1,0 +1,16 @@
+# Secrets and local credentials
+.env
+*.secret
+*.key
+*.pem
+credentials*
+secrets*
+
+# Neovim runtime files
+.lazy-lock.json
+*.log
+
+# OS/editor files
+.DS_Store
+*.swp
+undo
