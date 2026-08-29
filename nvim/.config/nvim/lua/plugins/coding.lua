@@ -13,7 +13,6 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = { "williamboman/mason-lspconfig.nvim" },
 		config = function()
-			-- Connect blink.cmp capabilities globally to Neovim's default LSP pipeline
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 			require("mason-lspconfig").setup({
@@ -24,10 +23,9 @@ return {
 			for _, server in ipairs(servers) do
 				local server_opts = {
 					capabilities = capabilities,
-					single_file_support = true, -- Forces LSP attachment on casual standalone files
+					single_file_support = true,
 				}
 
-				-- FIXED: Explicitly provide filetype filters for the native 0.12+ config router
 				if server == "html" then
 					server_opts.filetypes = { "html", "xhtml", "htmldart", "templ" }
 					server_opts.init_options = {
@@ -37,22 +35,17 @@ return {
 					}
 				end
 
-				-- FIXED: Explicitly map the trigger extensions for the emmet_ls language binary
 				if server == "emmet_ls" then
 					server_opts.filetypes = { "html", "css", "scss", "javascriptreact", "typescriptreact", "vue" }
 				end
 
-				-- FIXED: Explicitly tell lua_ls to attach to Lua files natively
 				if server == "lua_ls" then
 					server_opts.filetypes = { "lua" }
 				end
-
-				-- FIXED: Explicitly tell ts_ls to attach to JS/TS files natively
 				if server == "ts_ls" then
 					server_opts.filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" }
 				end
 
-				-- Initialize and enable natively using core Neovim 12.3+ mechanisms
 				vim.lsp.config(server, server_opts)
 				vim.lsp.enable(server)
 			end
@@ -60,11 +53,11 @@ return {
 	},
 
 	-- =========================================================================
-	-- 2. BLINK.CMP (UP-TO-DATE LAYOUT STRUCTURE + SNIPPET PREVIEWERS)
+	-- 2. BLINK.CMP + NATIVE ENGINE LOAD (FRIENDLY-SNIPPETS PATCHED)
 	-- =========================================================================
 	{
 		"saghen/blink.cmp",
-		version = "1.*",
+		version = "v0.*",
 		dependencies = { "rafamadriz/friendly-snippets" },
 		opts = {
 			keymap = {
@@ -73,12 +66,8 @@ return {
 				["<C-b>"] = { "scroll_documentation_up", "fallback" },
 				["<C-f>"] = { "scroll_documentation_down", "fallback" },
 			},
-			appearance = {
-				nerd_font_variant = "mono",
-			},
-			sources = {
-				default = { "lsp", "path", "snippets", "buffer" },
-			},
+			appearance = { nerd_font_variant = "mono" },
+			sources = { default = { "lsp", "path", "snippets", "buffer" } },
 			cmdline = {
 				sources = function()
 					local type = vim.fn.getcmdtype()
@@ -91,14 +80,13 @@ return {
 					return {}
 				end,
 			},
-			snippets = {
-				preset = "default",
-			},
+			-- Configures blink to expand text blocks natively via Neovim
+			snippets = { preset = "default" },
 			completion = {
 				keyword = { range = "full" },
 				trigger = { show_on_insert_on_trigger_character = true },
 
-				-- Anchors a dynamic snippet preview panel on the right side of the menu
+				-- Flyout preview panel showing what the snippet contains before executing
 				documentation = {
 					auto_show = true,
 					auto_show_delay_ms = 50,
@@ -115,38 +103,64 @@ return {
 				},
 			},
 		},
+		-- ADDED SNIPPET LOADER ROUTINE:
 		config = function(_, opts)
 			require("blink.cmp").setup(opts)
+			-- FIXED: Points Neovim's native runtime to your downloaded snippet framework
+			vim.g.vscode_snippets_path = vim.fn.stdpath("data") .. "/lazy/friendly-snippets"
 		end,
 	},
 
 	-- =========================================================================
-	-- 3. PAIRS & CLOSES (AUTOPAIRS ONLY - NO MAPPING INTERFERENCES)
+	-- 3. PAIRS & CLOSES (AUTOPAIRS ONLY)
 	-- =========================================================================
 	{
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
 		config = function()
-			local autopairs = require("nvim-autopairs")
-			autopairs.setup({
+			require("nvim-autopairs").setup({
 				disable_filetype = { "TelescopePrompt" },
-				check_ts = true, -- Integrates with Treesitter scopes cleanly
+				check_ts = true,
 			})
 		end,
 	},
 
+	-- -- =========================================================================
+	-- -- 4. LEGACY EMMET-VIM (CLASSIC EXPANSION TRIGGERS)
+	-- -- =========================================================================
+	-- {
+	-- 	"mattn/emmet-vim",
+	-- 	ft = { "html", "css", "javascriptreact", "typescriptreact", "vue" },
+	-- 	init = function()
+	-- 		vim.g.user_emmet_leader_key = "<C-y>"
+	-- 		vim.g.user_emmet_mode = "a"
+	-- 	end,
+	-- },
+	--
 	-- =========================================================================
-	-- 4. LEGACY EMMET-VIM (CLASSIC EXPANSION TRIGGERS)
+	-- 4. LEGACY EMMET-VIM (FIXED FOR VISUAL TAG WRAPPING)
 	-- =========================================================================
 	{
 		"mattn/emmet-vim",
 		ft = { "html", "css", "javascriptreact", "typescriptreact", "vue" },
 		init = function()
-			-- Restores your classic leader sequence trigger key map (<C-y>,)
+			-- Set your primary insert mode expansion leader prefix (e.g., ,, to expand)
 			vim.g.user_emmet_leader_key = ","
-			vim.g.user_emmet_mode = "a"
+			vim.g.user_emmet_expandabbr_key = ",,"
+
+			-- FIXED: Maps the visual wrap action sequence explicitly to your preferred keys
+			-- Usage: Highlight text in visual mode, type , , (comma space comma) to open the prompt
+			vim.g.user_emmet_settings = {
+				html = {
+					-- Ties the classic visual abbreviation mapping rule
+					expand_abbr_key = ",,",
+				},
+			}
+
+			vim.g.user_emmet_mode = "a" -- Allow all interaction hooks (Insert, Normal, Visual)
 		end,
 	},
+	--
 
 	-- =========================================================================
 	-- 5. FORMATTING & LINTING
