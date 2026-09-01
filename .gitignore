@@ -1,16 +1,30 @@
-# Secrets and local credentials
-.env
-*.secret
-*.key
-*.pem
-credentials*
-secrets*
-
-# Neovim runtime files
-.lazy-lock.json
-*.log
-
-# OS/editor files
+# =========================================================================
+# SYSTEM SPECIFIC / LOCAL CACHE LOGS
+# =========================================================================
 .DS_Store
+Thumbs.db
 *.swp
-undo
+*.swo
+*~
+
+# =========================================================================
+# NEOVIM AUTOMATED STORAGE & RUNTIME CACHES (EXCLUDE ALL)
+# =========================================================================
+# Exclude lazy.nvim downloaded plugin repositories on your host machine
+nvim/.config/nvim/.lazy/
+nvim/.config/nvim/lazy-lock.json
+
+# Exclude local runtime state caches if they get symlinked or copied inside
+nvim/.config/nvim/.netrwhist
+nvim/.config/nvim/undo/
+nvim/.config/nvim/view/
+nvim/.config/nvim/shada/
+
+# =========================================================================
+# PYTHON / COMPILER GENERATED BUILDS
+# =========================================================================
+__pycache__/
+*.pyc
+*.o
+*.out
+
