@@ -5,6 +5,55 @@
 -- ============================================
 local keymap = vim.keymap.set
 
+-- ============================================
+-- set leader keys before setting up Lazy
+-- ============================================
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+-- =========================================================================
+-- TOGGLE OPTIONS GROUP CONFIGURATIONS (<leader>t)
+-- =========================================================================
+
+-- <leader>tw: Toggle Deprecation Warnings (Already Added!)
+vim.keymap.set("n", "<leader>tw", function()
+	vim.g.deprecation_warnings = not vim.g.deprecation_warnings
+	if vim.g.deprecation_warnings then
+		vim.notify("⚠️ Deprecation Warnings: ENABLED (Show Logs)", vim.log.levels.WARN)
+	else
+		vim.notify("🔇 Deprecation Warnings: MUTED (Clean Screen)", vim.log.levels.INFO)
+	end
+end, { desc = "Toggle Deprecation Warnings" })
+
+-- <leader>tn: Toggle Between Relative and Fixed Line Numbers (Great for Screen Sharing)
+vim.keymap.set("n", "<leader>tn", function()
+	vim.opt.relativenumber = not vim.opt.relativenumber:get()
+	vim.notify("🔢 Relative Numbers: " .. (vim.opt.relativenumber:get() and "ON" or "OFF"))
+end, { desc = "Toggle Relative Line Numbers" })
+
+-- <leader>ts: Toggle Spell Checking (Turns cspell/native spelling highlights on/off)
+vim.keymap.set("n", "<leader>ts", function()
+	vim.opt.spell = not vim.opt.spell:get()
+	vim.notify("🔤 Spell Check: " .. (vim.opt.spell:get() and "ON" or "OFF"))
+end, { desc = "Toggle Spell Check" })
+
+-- <leader>tw: Toggle Line Wrap (Keeps long HTML lines from sliding off the screen)
+vim.keymap.set("n", "<leader>tl", function()
+	vim.opt.wrap = not vim.opt.wrap:get()
+	vim.notify("↔️ Line Wrap: " .. (vim.opt.wrap:get() and "ON" or "OFF"))
+end, { desc = "Toggle Line Wrap" })
+
+-- <leader>td: Toggle Inline LSP Diagnostics (Hides error/warning text while writing code)
+vim.keymap.set("n", "<leader>td", function()
+	if vim.diagnostic.is_enabled() then
+		vim.diagnostic.enable(false)
+		vim.notify("🙈 Diagnostics Hidden", vim.log.levels.INFO)
+	else
+		vim.diagnostic.enable(true)
+		vim.notify("👁️ Diagnostics Visible", vim.log.levels.INFO)
+	end
+end, { desc = "Toggle LSP Diagnostics" })
+
 -- =============================================
 -- Toggle comment on current line
 -- =============================================

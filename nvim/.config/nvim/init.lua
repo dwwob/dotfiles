@@ -1,8 +1,5 @@
--- ============================================
--- set leader keys before setting up Lazy
--- ============================================
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+-- ~.config/nvim/init.lua
+vim.g.deprecation_warnings = false
 
 -- ============================================
 -- require("vim._core.vi2").enable({})
@@ -10,44 +7,4 @@ vim.g.maplocalleader = " "
 require("config.options")
 require("config.keybinds")
 require("config.lazy")
-
--- ============================================
--- Setup autoclose plugin
--- ============================================
--- require("autoclose").setup()
-
-require("ibl").setup({
-	indent = {
-		char = "│", -- Set the vertical char acter line
-	},
-	scope = {
-		enabled = true, -- Highlights the current block scope you are working in
-		show_start = false,
-		show_end = false,
-	},
-})
-
-local highlight = {
-	"RainbowRed",
-	"RainbowYellow",
-	"RainbowBlue",
-	"RainbowOrange",
-	"RainbowGreen",
-	"RainbowViolet",
-	"RainbowCyan",
-}
-
-local hooks = require("ibl.hooks")
--- create the highlight groups in the highlight setup hook, so they are reset
--- every time the colorscheme changes
-hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
-	vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
-	vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
-	vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
-	vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
-	vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
-	vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
-	vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
-end)
-
-require("ibl").setup({ indent = { highlight = highlight } })
+require("config.auto")
