@@ -72,7 +72,7 @@ Clone your repository into your home folder and deploy it. Stow will generate sy
 ```bash
 # Clone down your personal dotfiles repository
 cd ~
-git clone <your-github-repo-url> .dotfiles
+git clone https://github.com/dwwob/dotfiles ~/.dotfiles
 
 # Deploy the configuration pointers onto your home system paths
 cd ~/.dotfiles
