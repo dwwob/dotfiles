@@ -1,0 +1,25 @@
+# ~/.dotfiles/git/.gitconfig
+
+[alias]
+    # Core Shorthands
+    s   = status -sb
+    a   = add
+    aa  = add .
+    c   = commit -m
+    p   = push
+    l   = pull
+    d   = diff --stat
+    
+    # Advanced Visual Log Graph
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+
+    # Automated Dotfiles Push Sequence
+    # Usage: git dot-push "feat: adjust lualine theme colors"
+    dot-push = "!f() { \
+        cd ~/.dotfiles && \
+        stow -R nvim && \
+        git add . && \
+        git commit -m \"${1:-chore: automated dotfiles update}\" && \
+        git push origin main; \
+    }; f"
+
