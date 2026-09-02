@@ -4,6 +4,7 @@
 -- short hand declaration
 -- ============================================
 local keymap = vim.keymap.set
+local opts = { silent = true }
 
 -- ============================================
 -- set leader keys before setting up Lazy
@@ -68,10 +69,12 @@ keymap("n", "<leader>q", ":q<CR>", { desc = "Quit " })
 --===============================================
 -- Window navigation
 -- ==============================================
-keymap("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
-keymap("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
-keymap("n", "<C-k>", "<C-w>k", { desc = "Go to upper window" })
-keymap("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
+keymap("n", "<leader>sv", "<cmd>vsplit<CR>", { desc = "Split Window Vertically", silent = true })
+keymap("n", "<leader>sh", "<cmd>split<CR>", { desc = "Split Window Horizontally", silent = true })
+keymap("n", "<C-h>", "<C-w>h", { desc = "Go to Left Window" })
+keymap("n", "<C-j>", "<C-w>j", { desc = "Go to Lower Window" })
+keymap("n", "<C-k>", "<C-w>k", { desc = "Go to Upper Window" })
+keymap("n", "<C-l>", "<C-w>l", { desc = "Go to Right Window" })
 
 -- ==============================================
 -- Toggle tree mode
@@ -134,7 +137,41 @@ keymap("n", "<leader>X", "<cmd>!chmod +x %<CR>", { silent = true, desc = "makes 
 -- =================================================
 keymap("n", "<leader>re", "<cmd>restart<CR>", { desc = "Restart Neovim (:restart)" })
 
--- =================================================
+-- ==================================================
+-- Telescope Fuzzy Finder Fast Hooks
+-- ==================================================
+keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find Files" })
+keymap("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Live Grep" })
+keymap("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Find Buffers" })
+keymap("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Help Tags" })
+
+-- ===================================================
+-- Fugitive Git Control Basics
+-- ===================================================
+keymap("n", "<leader>gs", "<cmd>Git<CR>", { desc = "Git Status Pane" })
+keymap("n", "<leader>gd", "<cmd>Gdiffsplit<CR>", { desc = "Git Diff Split" })
+keymap("n", "<leader>gc", "<cmd>Git commit<CR>", { desc = "Git Commit" })
+
+-- ====================================================
+-- GitGutter Hunk Jumps
+-- ====================================================
+keymap("n", "]c", "<cmd>GitGutterNextHunk<CR>", { desc = "Next Git Hunk" })
+keymap("n", "[c", "<cmd>GitGutterPrevHunk<CR>", { desc = "Previous Git Hunk" })
+keymap("n", "<leader>gh", "<cmd>GitGutterStageHunk<CR>", { desc = "Stage Current Hunk" })
+keymap("n", "<leader>gu", "<cmd>GitGutterUndoHunk<CR>", { desc = "Undo Current Hunk" })
+
+-- ======================================================
+-- Conform Code Formatter Trigger
+-- ======================================================
+keymap({ "n", "v" }, "<leader>f", function()
+	require("conform").format({
+		lsp_fallback = true,
+		async = false,
+		timeout_ms = 500,
+	})
+end, { desc = "Format Document/Selection" })
+
+-- ================================================
 -- Use Neovims Native undotree
 -- =================================================
 keymap("n", "<leader>u", function()
