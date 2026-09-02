@@ -1,6 +1,6 @@
 # 🌌 daniel's modular dotfiles
 
-A minimal, high-performance, and deeply modularized configuration suite built for modern Neovim versions. Managed entirely using **GNU Stow** to synchronize a unified terminal environment across multiple machines.
+A minimal, high-performance, and deeply modularized configuration suite built for modern Neovim versions (**v0.12+ / Nightly**). Managed entirely using **GNU Stow** to synchronize a unified terminal environment across multiple machines.
 
 ---
 
@@ -51,8 +51,10 @@ The layout uses a highly granular architecture. By grouping plugins into `ui/`, 
 
 ## 🚀 Rapid Local Deployment
 
-### 1. Prerequisites
-Ensure your local machine has the required system packages, build tools, language compilers, and clipboard clipboards utilities installed matching your Linux distribution package manager:
+If you want to use this exact configuration on your own machine, make sure you are on neovim version 12+ then follow these deployment steps:
+
+### 1. Install Prerequisites
+Ensure your system has the required system packages, build tools, language compilers, and clipboard utilities installed matching your Linux distribution package manager:
 
 ```bash
 # openSUSE (Tumbleweed / Leap)
@@ -60,62 +62,41 @@ sudo zypper refresh
 sudo zypper install git-core stow nodejs npm gcc-c++ clang xclip
 
 # Arch Linux
-sudo pacman -S git stow nodejs npm clang xclip
+sudo pacman -y -S git stow nodejs npm clang xclip
 
 # Ubuntu / Debian
-sudo apt update && sudo apt install git stow nodejs npm clang xclip
+sudo apt update && sudo apt install -y git stow nodejs npm clang xclip
 ```
 
-### 2. Symlink via GNU Stow
-Clone your repository into your home folder and deploy it. Stow will generate system-compliant symlinks pointing your host environment back to your central dotfiles repository paths natively:
+### 2. Clone and Symlink via GNU Stow
+Clone this repository directly into your home folder as a hidden directory (`.dotfiles`) and use Stow to generate system-compliant symlinks. This cleanly links your system's `~/.config/nvim` folder back to the repository:
 
 ```bash
-# Clone down your personal dotfiles repository
+# Clone the dotfiles repository
 cd ~
 git clone https://github.com/dwwob/dotfiles ~/.dotfiles
 
-# Deploy the configuration pointers onto your home system paths
+# Deploy the configuration pointers onto your home system paths via Stow
 cd ~/.dotfiles
 stow -R nvim
 ```
 
 ### 3. Initialize & Install Plugins
-Launch your editor. Your system will recognize the isolated settings, initialize the `lazy.nvim` engine framework, and automatically pull down your localized disk dependencies:
+Launch Neovim. The system will automatically detect the isolated configurations, bootstrap the `lazy.nvim` engine framework, and download all required language servers and plugin dependencies onto your local machine:
 
 ```bash
 nvim
 ```
-Once inside, sync the ecosystem entirely:
+Once inside the editor, fully synchronize the ecosystem:
 ```text
 :Lazy clean | Lazy sync
 ```
 
 ---
 
-## 🔄 Cross-Machine Synchronization Loop
-
-When moving between workstations, always push updates upstream and cleanly pull down modifications to keep systems in perfect parity.
-
-### On your Primary Machine (Push Changes):
-```bash
-cd ~/.dotfiles
-git add .
-git commit -m "feat: adjust text object selection layouts"
-git push origin main
-```
-
-### On your Secondary Machine (Pull Changes):
-```bash
-cd ~/.dotfiles
-git pull origin main
-stow -R nvim  # Forces Stow to refresh system symlink structures for newly added modules
-```
-
----
-
 ## ⚡ Core Operational Workflows
 
-This workspace maps key configurations explicitly to maximize editing speed. Your `<leader>` key is mapped directly to the **Spacebar**.
+This workspace maps key configurations explicitly to maximize editing speed. The `<leader>` key is mapped directly to the **Spacebar**.
 
 ### 🔍 Find & Navigate (`<leader>f`)
 *   `<leader>ff` — Fuzzy find files inside your active directory path.
