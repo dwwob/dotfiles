@@ -1,5 +1,7 @@
+-- ~/.dotfiles/nvim/.config/nvim/lua/plugins/coding/conform.lua
+
 -- =========================================================================
--- 5. FORMATTING & LINTING
+-- 5. FORMATTING by file type
 -- =========================================================================
 return {
 	"stevearc/conform.nvim",

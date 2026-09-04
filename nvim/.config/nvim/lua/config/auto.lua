@@ -1,9 +1,8 @@
+-- ./config/nvim/lua/config/auto.lua
+
 -- ============================================
 -- Setup autoclose plugin
 -- ============================================
--- require("autoclose").setup()
---
---
 
 require("ibl").setup({
 	indent = {

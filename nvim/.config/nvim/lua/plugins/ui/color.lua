@@ -7,7 +7,7 @@ return {
 	priority = 1000,
 	config = function()
 		require("tokyonight").setup({
-			style = "moon", -- High-vibrancy dark base style
+			style = "night", -- High-vibrancy dark base style
 			transparent = true, -- Enable beautiful transparent background
 			styles = {
 				sidebars = "transparent",
@@ -34,8 +34,8 @@ return {
 		vim.api.nvim_set_hl(0, "htmlArg", { fg = vivid_neon_blue, italic = true }) -- HTML class/id attributes
 
 		-- 1c. HIGH-VISIBILITY COMMENTS (Forces glowing neon green text blocks)
-		vim.api.nvim_set_hl(0, "Comment", { fg = vivid_gunmetal_gray, bold = true, italic = false })
-		vim.api.nvim_set_hl(0, "htmlComment", { fg = vivid_gunmetal_gray, bold = true })
-		vim.api.nvim_set_hl(0, "htmlCommentPart", { fg = vivid_gunmetal_gray, bold = true })
+		vim.api.nvim_set_hl(0, "Comment", { fg = vivid_gunmetal_gray, bold = true, italic = true })
+		vim.api.nvim_set_hl(0, "htmlComment", { fg = vivid_gunmetal_gray, bold = true, italic = true })
+		vim.api.nvim_set_hl(0, "htmlCommentPart", { fg = vivid_gunmetal_gray, bold = true, italic = true })
 	end,
 }

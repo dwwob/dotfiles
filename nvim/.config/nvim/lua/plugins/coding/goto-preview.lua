@@ -1,3 +1,5 @@
+-- ~/.dotfiles/nvim/.config/nvim/lua/plugins/coding/goto-preview.lua
+
 return {
 	"rmagatti/goto-preview",
 	event = "BufRead",
