@@ -20,7 +20,7 @@ return {
 		local vivid_neon_blue = "#00f0ff"
 		local vivid_neon_pink = "#ff007f"
 		local vivid_gunmetal_gray = "#8D918D"
-		local bright_white = "#ffffff"
+		-- local bright_white = "#ffffff"
 		local highly_visible_gray = "#8996db"
 
 		-- 1a. LINE NUMBERS (Active vs. Relative Inactive Stack)
