@@ -1,11 +1,4 @@
 -- ~/.config/nvim/lua/config/options.lua
---
--- =========================================
--- set file encoding to utf-8
--- =========================================
--- vim.opt.fileencoding = "utf-8"
---
--- =========================================
 -- setting line numbers options
 -- =========================================
 vim.opt.number = true
@@ -63,7 +56,7 @@ vim.opt.cmdheight = 2
 -- ==============================================
 -- spell checker settings
 -- ==============================================
--- vim.opt.spell = true
+vim.opt.spell = true
 vim.opt.spelllang = { "en_us" }
 --
 -- ==============================================
@@ -102,6 +95,3 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		vim.hl.on_yank()
 	end,
 })
---
---
---
