@@ -1,3 +1,5 @@
+-- ~/.dotfiles/nvim/.config/nvim/lua/plugins/coding/nvim-lint.lua
+
 return {
 	"mfussenegger/nvim-lint",
 	event = { "BufReadPost", "BufNewFile" },

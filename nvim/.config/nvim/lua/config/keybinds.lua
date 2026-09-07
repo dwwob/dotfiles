@@ -9,8 +9,8 @@ local opts = { silent = true }
 -- ============================================
 -- set leader keys before setting up Lazy
 -- ============================================
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+-- vim.g.mapleader = " "
+-- vim.g.maplocalleader = " "
 
 -- =========================================================================
 -- TOGGLE OPTIONS GROUP CONFIGURATIONS (<leader>t)
@@ -44,6 +44,50 @@ vim.keymap.set("n", "<leader>tl", function()
 	vim.notify("↔️ Line Wrap: " .. (vim.opt.wrap:get() and "ON" or "OFF"))
 end, { desc = "Toggle Line Wrap" })
 
+-- -- <leader>td: Toggle Inline LSP Diagnostics (Hides error/warning text while writing code)
+-- vim.keymap.set("n", "<leader>td", function()
+-- 	local current = vim.diagnostic.is_enabled()
+-- 	vim.diagnostic.enable(not current)
+-- 	vim.notify("🩺 LSP Diagnostics: " .. (not current and "ENABLED" or "MUTED"))
+-- end, { desc = "Toggle Inline Diagnostics" })
+
+-- Append to the bottom of ~/.config/nvim/lua/config/keybinds.lua
+
+-- =========================================================================
+-- TERMINAL AND LAZYGIT LAYOUT TOGGLES (<leader>t)
+-- =========================================================================
+
+-- <leader>tg: Toggle Floating Lazygit Popup Application
+vim.keymap.set("n", "<leader>tg", function()
+	if _G.toggle_lazygit then
+		_G.toggle_lazygit()
+	else
+		vim.notify("❌ Lazygit module not loaded yet", vim.log.levels.ERROR)
+	end
+end, { desc = "Toggle Lazygit Dashboard" })
+
+-- <leader>th: Toggle Horizontal Split Terminal Window
+vim.keymap.set(
+	"n",
+	"<leader>th",
+	"<cmd>ToggleTerm direction=horizontal<cr>",
+	{ desc = "Toggle Horizontal Terminal Split" }
+)
+
+-- <leader>tv: Toggle Vertical Split Terminal Window
+vim.keymap.set("n", "<leader>tv", "<cmd>ToggleTerm direction=vertical<cr>", { desc = "Toggle Vertical Terminal Split" })
+
+-- <leader>tf: Toggle General Floating Terminal window
+vim.keymap.set("n", "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", { desc = "Toggle Floating Terminal Shell" })
+
+-- -- Append these to your ~/.config/nvim/lua/config/keybinds.lua if desired:
+--
+-- -- <leader>th: Toggle Horizontal Workspace Terminal
+-- vim.keymap.set("n", "<leader>th", "<cmd>ToggleTerm direction=horizontal<cr>", { desc = "Toggle Horizontal Terminal" })
+--
+-- -- <leader>tf: Toggle Floating Popup Terminal
+-- vim.keymap.set("n", "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", { desc = "Toggle Floating Terminal" })
+
 -- <leader>td: Toggle Inline LSP Diagnostics (Hides error/warning text while writing code)
 vim.keymap.set("n", "<leader>td", function()
 	if vim.diagnostic.is_enabled() then
@@ -53,7 +97,7 @@ vim.keymap.set("n", "<leader>td", function()
 		vim.diagnostic.enable(true)
 		vim.notify("👁️ Diagnostics Visible", vim.log.levels.INFO)
 	end
-end, { desc = "Toggle LSP Diagnostics" })
+end, { desc = "Toggle Inline LSP Diagnostics" })
 
 -- =============================================
 -- Toggle comment on current line
@@ -99,7 +143,7 @@ keymap({ "n", "v" }, "<leader>d", [["_d]], { desc = "Delete without yanking" })
 -- ===============================================
 -- clear search highlighting
 -- ===============================================
-keymap("n", "<C-c>", "nohl<CR>", { desc = "Clear search highlighting", silent = true })
+keymap("n", "<leader>ti", "<cmd>nohlsearch<cr>", { desc = "Clear search highlighting", silent = true })
 
 -- ===============================================
 -- visual line movements

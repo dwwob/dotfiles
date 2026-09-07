@@ -1,22 +1,51 @@
+-- ~/.config/nvim/lua/plugins/ui/indent.lua
+
 return {
-	-- =========================================================================
-	-- 3. INDENTBLANKLINE.LUA (VIVID SCOPE GUIDE TRACKING)
-	-- =========================================================================
-	{
-		"lukas-reineke/indent-blankline.nvim",
-		main = "ibl",
-		event = { "BufReadPost", "BufNewFile" },
-		opts = {
-			indent = {
-				char = "│",
-				tab_char = "│",
-			},
-			scope = {
-				enabled = true,
-				show_start = true,
-				show_end = false,
-				highlight = { "Function", "Label" }, -- Highlights active brackets using structural syntax colors
+	"lukas-reineke/indent-blankline.nvim",
+	main = "ibl",
+	event = { "BufReadPost", "BufNewFile" },
+	opts = {
+		indent = {
+			char = "┊", -- Modern thin guide layout
+		},
+		scope = {
+			enabled = true,
+			show_start = false,
+			show_end = false,
+		},
+		exclude = {
+			filetypes = {
+				"help",
+				"alpha",
+				"dashboard",
+				"neo-tree",
+				"Trouble",
+				"lazy",
+				"toggleterm",
 			},
 		},
 	},
 }
+
+-- return {
+-- 	-- =========================================================================
+-- 	-- 3. INDENTBLANKLINE.LUA (VIVID SCOPE GUIDE TRACKING)
+-- 	-- =========================================================================
+-- 	{
+-- 		"lukas-reineke/indent-blankline.nvim",
+-- 		main = "ibl",
+-- 		event = { "BufReadPost", "BufNewFile" },
+-- 		opts = {
+-- 			indent = {
+-- 				char = "│",
+-- 				tab_char = "│",
+-- 			},
+-- 			scope = {
+-- 				enabled = true,
+-- 				show_start = true,
+-- 				show_end = false,
+-- 				highlight = { "Function", "Label" }, -- Highlights active brackets using structural syntax colors
+-- 			},
+-- 		},
+-- 	},
+-- }
