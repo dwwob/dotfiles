@@ -81,7 +81,7 @@ Clone this repository directly into your home folder as a hidden directory (`.do
 ```bash
 # Clone the dotfiles repository
 cd ~
-git clone https://github.com ~/.dotfiles
+git clone https://github.com/dwwob/dotfiles ~/.dotfiles
 
 # Deploy the configuration pointers onto your home system paths via Stow
 cd ~/.dotfiles
