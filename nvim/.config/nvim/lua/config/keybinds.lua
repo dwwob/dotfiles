@@ -19,12 +19,19 @@ vim.keymap.set("n", "<leader>tw", function()
 	end
 end, { desc = "Toggle Deprecation Warnings" })
 
--- <leader>tn: Toggle Between Relative and Fixed Line Numbers (Great for Screen Sharing)
+-- <leader>tn: Toggle between Relative and Fixed Absolute Line Numbers
 vim.keymap.set("n", "<leader>tn", function()
 	vim.opt.relativenumber = not vim.opt.relativenumber:get()
-	vim.notify("🔢 Relative Numbers: " .. (vim.opt.relativenumber:get() and "ON" or "OFF"))
+	local status = vim.opt.relativenumber:get() and "RELATIVE" or "ABSOLUTE"
+	vim.notify("🔢 Line Numbers: " .. status, vim.log.levels.INFO)
 end, { desc = "Toggle Relative Line Numbers" })
 
+-- -- <leader>tn: Toggle Between Relative and Fixed Line Numbers (Great for Screen Sharing)
+-- vim.keymap.set("n", "<leader>tn", function()
+-- 	vim.opt.relativenumber = not vim.opt.relativenumber:get()
+-- 	vim.notify("🔢 Relative Numbers: " .. (vim.opt.relativenumber:get() and "ON" or "OFF"))
+-- end, { desc = "Toggle Relative Line Numbers" })
+--
 -- <leader>ts: Toggle Spell Checking (Turns cspell/native spelling highlights on/off)
 vim.keymap.set("n", "<leader>ts", function()
 	vim.opt.spell = not vim.opt.spell:get()

@@ -39,3 +39,50 @@ hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
 end)
 
 require("ibl").setup({ indent = { highlight = highlight } })
+
+-- ~/.config/nvim/lua/config/auto.lua
+
+local compile_group = vim.api.nvim_create_augroup("AutoCompileAndRun", { clear = true })
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+	group = compile_group,
+	pattern = { "*.c", "*.cpp", "*.py", "*.cob", "*.cbl", "*.sh" },
+	callback = function()
+		-- 🩺 LSP SAFETY CHECK: Count active syntax errors in the current buffer
+		local errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
+
+		-- If there are any syntax errors blocking the file, abort compilation completely
+		if errors > 0 then
+			vim.notify("⚠️ Auto-compile blocked: Fix active syntax errors first.", vim.log.levels.WARN)
+			return
+		end
+
+		local target_dir = vim.fn.expand("%:p:h")
+		local file_name = vim.fn.expand("%:t")
+		local base_name = vim.fn.expand("%:t:r")
+		local extension = vim.fn.expand("%:e")
+
+		local exec_cmd = nil
+
+		-- Construct compiling parameters clearly
+		if extension == "py" then
+			exec_cmd = "python3 " .. file_name
+		elseif extension == "c" then
+			exec_cmd = "gcc " .. file_name .. " -o " .. base_name .. " && ./" .. base_name
+		elseif extension == "cpp" or extension == "cc" then
+			exec_cmd = "g++ " .. file_name .. " -o " .. base_name .. " && ./" .. base_name
+		elseif extension == "cob" or extension == "cbl" then
+			exec_cmd = "cobc -x " .. file_name .. " && ./" .. base_name
+		elseif extension == "sh" then
+			exec_cmd = "./" .. file_name
+		end
+
+		if exec_cmd then
+			-- Append the pause prompt so the console window locks open
+			local final_payload = exec_cmd .. ' && echo "" && read -p "Press [Enter] to close..." _'
+
+			-- 🚀 FIX: Invoke the native Lua API executor instead of VIM command routing strings
+			require("toggleterm").exec(final_payload, nil, nil, target_dir, "float")
+		end
+	end,
+})

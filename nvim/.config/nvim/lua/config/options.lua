@@ -95,3 +95,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		vim.hl.on_yank()
 	end,
 })
+
+vim.opt.title = true
+vim.opt.titlestring = "NVIM 🦎 %{expand('%:p:~')}"
