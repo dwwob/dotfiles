@@ -31,7 +31,7 @@ vim.opt.linebreak = true
 -- line indent settings
 -- =============================================
 vim.opt.breakindent = true
-vim.opt.breakindentopt = "shift:0,min:40"
+vim.opt.breakindentopt = "shift:0,min:50"
 vim.opt.smartindent = true
 --
 -- ==============================================
@@ -46,7 +46,6 @@ vim.opt.splitright = true
 -- ==============================================
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
---
 -- ==============================================
 -- status line settings
 -- ==============================================
@@ -58,7 +57,6 @@ vim.opt.cmdheight = 2
 -- ==============================================
 vim.opt.spell = true
 vim.opt.spelllang = { "en_us" }
---
 -- ==============================================
 -- undo file settings
 -- ==============================================

@@ -187,6 +187,26 @@ keymap("n", "[c", "<cmd>GitGutterPrevHunk<CR>", { desc = "Previous Git Hunk" })
 keymap("n", "<leader>gh", "<cmd>GitGutterStageHunk<CR>", { desc = "Stage Current Hunk" })
 keymap("n", "<leader>gu", "<cmd>GitGutterUndoHunk<CR>", { desc = "Undo Current Hunk" })
 
+-- Replaced the auto-pairing loop at the bottom with this:
+
+local native_pairs = { ["("] = ")", ["["] = "]", ["{"] = "}", ['"'] = '"', ["'"] = "'" }
+for open_char, close_char in pairs(native_pairs) do
+	vim.keymap.set("i", open_char, function()
+		local ok, node = pcall(vim.treesitter.get_node)
+
+		-- 🚀 FIX: Only block pairing inside explicit strings or comment scopes.
+		-- This allows brackets to insert inside unfinished syntax or ERROR nodes!
+		if ok and node then
+			local type = node:type()
+			if type == "comment" or type == "string" or type == "character_literal" then
+				return open_char
+			end
+		end
+
+		return open_char .. close_char .. "<Left>"
+	end, { expr = true, desc = "Native auto-pair " .. open_char })
+end
+
 -- ======================================================
 -- Conform Code Formatter Trigger
 -- ======================================================
@@ -205,3 +225,52 @@ keymap("n", "<leader>u", function()
 	vim.cmd.packadd("nvim.undotree")
 	require("undotree").open()
 end, { desc = "Toggle Builtin Undotree" })
+
+-- ~/.config/nvim/lua/config/keybinds.lua
+-- 🚀 Add word under cursor to global cspell dictionary
+
+vim.keymap.set("n", "<leader>sa", function()
+	local word = vim.fn.expand("<cword>") -- Captures the literal word under the cursor
+	if word == "" then
+		return
+	end
+
+	local cspell_path = vim.fn.expand("~/.cspell.json")
+
+	-- If the configuration file doesn't exist yet, initialize it
+	if vim.fn.filereadable(cspell_path) == 0 then
+		local initial_json = '{\n  "version": "0.2",\n  "language": "en",\n  "words": [],\n  "flagWords": []\n}'
+		local f = io.open(cspell_path, "w")
+		if f then
+			f:write(initial_json)
+			f:close()
+		end
+	end
+
+	-- Read and append the word to the words array block dynamically
+	local file = io.open(cspell_path, "r")
+	if not file then
+		return
+	end
+	local content = file:read("*a")
+	file:close()
+
+	-- Check if the word is already tracked to avoid duplicates
+	if content:find('"' .. word .. '"') then
+		vim.notify("🔤 '" .. word .. "' is already in cspell dictionary.", vim.log.levels.WARN)
+		return
+	end
+
+	-- Simple regex substitution to push the word into the array structural bounds
+	local updated_content = content:gsub('"words":%s*%[', '"words": [\n    "' .. word .. '",')
+
+	local write_file = io.open(cspell_path, "w")
+	if write_file then
+		write_file:write(updated_content)
+		write_file:close()
+		vim.notify("📝 Added '" .. word .. "' to cspell dictionary!", vim.log.levels.INFO)
+
+		-- Force cspell_ls to refresh its buffer highlights instantly if active
+		vim.cmd("edit!")
+	end
+end, { desc = "Add Word under Cursor to cspell" })

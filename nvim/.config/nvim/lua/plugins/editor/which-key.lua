@@ -33,6 +33,7 @@ return {
 			{ "<leader>tv", desc = "Toggle Vertical Terminal Split" },
 			{ "<leader>tw", desc = "Toggle Deprecation Warnings" },
 			{ "<leader>tx", desc = "Diagnostics Panel (Trouble)" },
+			{ "<leader>sa", desc = "Add Word to cspell Dictionary" },
 		},
 	},
 }
