@@ -1,0 +1,21 @@
+{
+  "Main Function Template": {
+    "prefix": "mainv",
+    "body": [
+      "#include <stdio.h>",
+      "",
+      "int main(void) {",
+      "    ${1:// Your core logic here}",
+      "    return 0;",
+      "}"
+    ],
+    "description": "Generate Standard main(void) Structure"
+  },
+  "Standard Printf Logger": {
+    "prefix": "prn",
+    "body": [
+      "printf(\"${1:%s}\\n\", ${2:variable});"
+    ],
+    "description": "Insert standard formatted print statement with line break"
+  }
+}

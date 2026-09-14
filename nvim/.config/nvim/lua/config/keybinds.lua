@@ -26,12 +26,6 @@ vim.keymap.set("n", "<leader>tn", function()
 	vim.notify("🔢 Line Numbers: " .. status, vim.log.levels.INFO)
 end, { desc = "Toggle Relative Line Numbers" })
 
--- -- <leader>tn: Toggle Between Relative and Fixed Line Numbers (Great for Screen Sharing)
--- vim.keymap.set("n", "<leader>tn", function()
--- 	vim.opt.relativenumber = not vim.opt.relativenumber:get()
--- 	vim.notify("🔢 Relative Numbers: " .. (vim.opt.relativenumber:get() and "ON" or "OFF"))
--- end, { desc = "Toggle Relative Line Numbers" })
---
 -- <leader>ts: Toggle Spell Checking (Turns cspell/native spelling highlights on/off)
 vim.keymap.set("n", "<leader>ts", function()
 	vim.opt.spell = not vim.opt.spell:get()
@@ -274,3 +268,36 @@ vim.keymap.set("n", "<leader>sa", function()
 		vim.cmd("edit!")
 	end
 end, { desc = "Add Word under Cursor to cspell" })
+
+-- ~/.config/nvim/lua/config/keybinds.lua
+-- 🚀 Manual C Compilation & Run Trigger Shortcut
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "c", "cpp" },
+	callback = function()
+		vim.keymap.set("n", "<leader>tc", function()
+			-- 🩺 LSP SAFETY CHECK: Count active syntax errors before compiling
+			local errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
+			if errors > 0 then
+				vim.notify("⚠️ Manual compile blocked: Fix active syntax errors first.", vim.log.levels.WARN)
+				return
+			end
+
+			local target_dir = vim.fn.expand("%:p:h")
+			local file_name = vim.fn.expand("%:t")
+			local base_name = vim.fn.expand("%:t:r")
+			local extension = vim.fn.expand("%:e")
+
+			-- Dynamically switch compiler binary based on file extension
+			local compiler = (extension == "cpp" or extension == "cc") and "g++" or "gcc"
+			local exec_cmd = compiler .. " " .. file_name .. " -o " .. base_name .. " && ./" .. base_name
+			local final_payload = exec_cmd .. ' && echo "" && read -p "Press [Enter] to close..." _ && exit'
+
+			-- Explicitly ensure ToggleTerm is awake and pass it to the native Lua API executor
+			require("lazy").load({ plugins = { "toggleterm.nvim" } })
+			require("toggleterm").exec(final_payload, 100, nil, target_dir, "float")
+
+			vim.notify("🔨 C/C++ Compilation initialized...", vim.log.levels.INFO)
+		end, { buffer = true, desc = "Compile and Run C/C++ Script" })
+	end,
+})

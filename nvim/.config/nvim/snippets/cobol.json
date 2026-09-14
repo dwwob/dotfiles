@@ -1,0 +1,34 @@
+{
+  "Identification Division": {
+    "prefix": "iddiv",
+    "body": [
+      "       IDENTIFICATION DIVISION.",
+      "       PROGRAM-ID.  ${1:PROGRAM_NAME}.",
+      "       AUTHOR.      DANIEL WOBKER.",
+      "$0"
+    ],
+    "description": "Expand Identification Division Header Block"
+  },
+  "Data Division Structure": {
+    "prefix": "ddiv",
+    "body": [
+      "       DATA DIVISION.",
+      "       FILE SECTION.",
+      "       WORKING-STORAGE SECTION.",
+      "       01  ${1:WS-VARIABLE}     PIC ${2:X(20)} VALUE ${3:SPACES}.",
+      "$0"
+    ],
+    "description": "Expand Data and Working-Storage Division Block"
+  },
+  "Procedure Division Logic": {
+    "prefix": "pdiv",
+    "body": [
+      "       PROCEDURE DIVISION.",
+      "       ${1:0000-MAIN-PARAGRAPH}.",
+      "           ${2:DISPLAY \"Executing...\"}.",
+      "           STOP RUN.",
+      "$0"
+    ],
+    "description": "Expand Procedure Division Execution Block"
+  }
+}

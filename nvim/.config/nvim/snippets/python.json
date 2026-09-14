@@ -1,0 +1,40 @@
+{
+  "Main Block Guard": {
+    "prefix": "main",
+    "body": [
+      "def main():",
+      "    ${1:pass}",
+      "",
+      "if __name__ == \"__main__\":",
+      "    main()"
+    ],
+    "description": "Generate standard if __name__ == '__main__' execution block"
+  },
+  "Class Structure Template": {
+    "prefix": "classd",
+    "body": [
+      "class ${1:ClassName}:",
+      "    \"\"\"${2:Description of the class.}\"\"\"",
+      "    def __init__(self, ${3:args}):",
+      "        ${4:pass}"
+    ],
+    "description": "Generate standard class blueprint with initialization method"
+  },
+  "List Comprehension Expansion": {
+    "prefix": "lcomp",
+    "body": [
+      "[${1:item} for ${2:item} in ${3:iterable} if ${4:condition}]"
+    ],
+    "description": "Insert boilerplate optimized flat list comprehension wrapper"
+  },
+  "Try Except Block": {
+    "prefix": "tryex",
+    "body": [
+      "try:",
+      "    ${1:pass}",
+      "except ${2:Exception} as ${3:e}:",
+      "    ${4:raise e}"
+    ],
+    "description": "Insert robust error checking try-except validation block"
+  }
+}
