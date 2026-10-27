@@ -8,7 +8,6 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- Initialize your custom mappings array layer immediately
 require("config.keybinds")
 
 -- =========================================================================

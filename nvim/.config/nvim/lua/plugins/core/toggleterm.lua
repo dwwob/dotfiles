@@ -3,6 +3,7 @@
 return {
 	"akinsho/toggleterm.nvim",
 	version = "*",
+	cmd = { "ToggleTerm", "ToggleTermToggleAll", "ToggleTermSendVisualLines", "ToggleTermSendVisualSelection" },
 	keys = {
 		{ "<C-\\>", "<cmd>ToggleTerm direction=float<cr>", desc = "Toggle Floating Shell" },
 	},

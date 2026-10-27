@@ -1,303 +1,242 @@
 -- ~/.config/nvim/lua/config/keybinds.lua
 
 -- ============================================
--- short hand declaration
+-- Short-hand declarations & option helpers
 -- ============================================
 local keymap = vim.keymap.set
-local opts = { silent = true }
+local default_opts = { silent = true }
+
+-- Helper function to cleanly combine silent defaults with unique descriptions
+local function opts(description)
+	return vim.tbl_deep_extend("force", default_opts, { desc = description })
+end
 
 -- =========================================================================
 -- TOGGLE OPTIONS GROUP CONFIGURATIONS (<leader>t)
 -- =========================================================================
--- <leader>tw: Toggle Deprecation Warnings (Already Added!)
-vim.keymap.set("n", "<leader>tw", function()
+
+-- <leader>tw: Toggle Deprecation Warnings
+keymap("n", "<leader>tw", function()
 	vim.g.deprecation_warnings = not vim.g.deprecation_warnings
 	if vim.g.deprecation_warnings then
 		vim.notify("⚠️ Deprecation Warnings: ENABLED (Show Logs)", vim.log.levels.WARN)
 	else
 		vim.notify("🔇 Deprecation Warnings: MUTED (Clean Screen)", vim.log.levels.INFO)
 	end
-end, { desc = "Toggle Deprecation Warnings" })
+end, opts("Toggle Deprecation Warnings"))
 
 -- <leader>tn: Toggle between Relative and Fixed Absolute Line Numbers
-vim.keymap.set("n", "<leader>tn", function()
-	vim.opt.relativenumber = not vim.opt.relativenumber:get()
-	local status = vim.opt.relativenumber:get() and "RELATIVE" or "ABSOLUTE"
+keymap("n", "<leader>tn", function()
+	vim.o.relativenumber = not vim.o.relativenumber
+	local status = vim.o.relativenumber and "RELATIVE" or "ABSOLUTE"
 	vim.notify("🔢 Line Numbers: " .. status, vim.log.levels.INFO)
-end, { desc = "Toggle Relative Line Numbers" })
+end, opts("Toggle Relative Line Numbers"))
 
--- <leader>ts: Toggle Spell Checking (Turns cspell/native spelling highlights on/off)
-vim.keymap.set("n", "<leader>ts", function()
-	vim.opt.spell = not vim.opt.spell:get()
-	vim.notify("🔤 Spell Check: " .. (vim.opt.spell:get() and "ON" or "OFF"))
-end, { desc = "Toggle Spell Check" })
+-- <leader>ts: Toggle Spell Checking
+keymap("n", "<leader>ts", function()
+	vim.o.spell = not vim.o.spell
+	vim.notify("🔤 Spell Check: " .. (vim.o.spell and "ON" or "OFF"), vim.log.levels.INFO)
+end, opts("Toggle Spell Check"))
 
--- <leader>tw: Toggle Line Wrap (Keeps long HTML lines from sliding off the screen)
-vim.keymap.set("n", "<leader>tl", function()
-	vim.opt.wrap = not vim.opt.wrap:get()
-	vim.notify("↔️ Line Wrap: " .. (vim.opt.wrap:get() and "ON" or "OFF"))
-end, { desc = "Toggle Line Wrap" })
+-- <leader>tl: Toggle Line Wrap
+keymap("n", "<leader>tl", function()
+	vim.o.wrap = not vim.o.wrap
+	vim.notify("↔️ Line Wrap: " .. (vim.o.wrap and "ON" or "OFF"), vim.log.levels.INFO)
+end, opts("Toggle Line Wrap"))
+
+-- <leader>td: Toggle Inline LSP Diagnostics (Updated for Neovim 12.5+)
+keymap("n", "<leader>td", function()
+	if vim.diagnostic.is_paused() then
+		vim.diagnostic.resume()
+		vim.notify("👁️ Diagnostics Visible", vim.log.levels.INFO)
+	else
+		vim.diagnostic.pause()
+		vim.notify("🙈 Diagnostics Hidden", vim.log.levels.INFO)
+	end
+end, opts("Toggle Inline LSP Diagnostics"))
 
 -- =========================================================================
 -- TERMINAL AND LAZYGIT LAYOUT TOGGLES (<leader>t)
 -- =========================================================================
 
 -- <leader>tg: Toggle Floating Lazygit Popup Application
-vim.keymap.set("n", "<leader>tg", function()
+keymap("n", "<leader>tg", function()
 	if _G.toggle_lazygit then
 		_G.toggle_lazygit()
 	else
 		vim.notify("❌ Lazygit module not loaded yet", vim.log.levels.ERROR)
 	end
-end, { desc = "Toggle Lazygit Dashboard" })
+end, opts("Toggle Lazygit Dashboard"))
 
 -- <leader>th: Toggle Horizontal Split Terminal Window
-vim.keymap.set(
-	"n",
-	"<leader>th",
-	"<cmd>ToggleTerm direction=horizontal<cr>",
-	{ desc = "Toggle Horizontal Terminal Split" }
-)
+keymap("n", "<leader>th", "<cmd>ToggleTerm direction=horizontal<cr>", opts("Toggle Horizontal Terminal Split"))
 
 -- <leader>tv: Toggle Vertical Split Terminal Window
-vim.keymap.set("n", "<leader>tv", "<cmd>ToggleTerm direction=vertical<cr>", { desc = "Toggle Vertical Terminal Split" })
+keymap("n", "<leader>tv", "<cmd>ToggleTerm direction=vertical<cr>", opts("Toggle Vertical Terminal Split"))
 
 -- <leader>tf: Toggle General Floating Terminal window
-vim.keymap.set("n", "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", { desc = "Toggle Floating Terminal Shell" })
-
--- <leader>td: Toggle Inline LSP Diagnostics (Hides error/warning text while writing code)
-vim.keymap.set("n", "<leader>td", function()
-	if vim.diagnostic.is_enabled() then
-		vim.diagnostic.enable(false)
-		vim.notify("🙈 Diagnostics Hidden", vim.log.levels.INFO)
-	else
-		vim.diagnostic.enable(true)
-		vim.notify("👁️ Diagnostics Visible", vim.log.levels.INFO)
-	end
-end, { desc = "Toggle Inline LSP Diagnostics" })
+keymap("n", "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", opts("Toggle Floating Terminal Shell"))
 
 -- =============================================
 -- Toggle comment on current line
 -- =============================================
-keymap("n", "<leader>cc", "gcc", { remap = true, desc = "Toggle Comment" })
+keymap("n", "<leader>cc", "gcc", { remap = true, silent = true, desc = "Toggle Comment" })
 
 -- ============================================
 -- File actions {save and quit}
 -- ============================================
-keymap("n", "<leader>w", ":w<CR>", { desc = "save file " })
-keymap("n", "<leader>q", ":q<CR>", { desc = "Quit " })
+keymap("n", "<leader>w", ":w<CR>", opts("Save file"))
+keymap("n", "<leader>q", ":q<CR>", opts("Quit"))
 
 --===============================================
 -- Window navigation
 -- ==============================================
-keymap("n", "<leader>sv", "<cmd>vsplit<CR>", { desc = "Split Window Vertically", silent = true })
-keymap("n", "<leader>sh", "<cmd>split<CR>", { desc = "Split Window Horizontally", silent = true })
-keymap("n", "<C-h>", "<C-w>h", { desc = "Go to Left Window" })
-keymap("n", "<C-j>", "<C-w>j", { desc = "Go to Lower Window" })
-keymap("n", "<C-k>", "<C-w>k", { desc = "Go to Upper Window" })
-keymap("n", "<C-l>", "<C-w>l", { desc = "Go to Right Window" })
+keymap("n", "<leader>sv", "<cmd>vsplit<CR>", opts("Split Window Vertically"))
+keymap("n", "<leader>sh", "<cmd>split<CR>", opts("Split Window Horizontally"))
+keymap("n", "<C-h>", "<C-w>h", opts("Go to Left Window"))
+keymap("n", "<C-j>", "<C-w>j", opts("Go to Lower Window"))
+keymap("n", "<C-k>", "<C-w>k", opts("Go to Upper Window"))
+keymap("n", "<C-l>", "<C-w>l", opts("Go to Right Window"))
 
 -- ==============================================
--- Toggle tree mode
+-- Toggle tree mode / File Explorer Hook
 -- ==============================================
-keymap("n", "<leader>cd", vim.cmd.Ex, { desc = "toggle tree mode" })
+keymap("n", "<leader>e", "<cmd>Neotree toggle<cr>", opts("Toggle File Explorer"))
+keymap("n", "<leader>cd", vim.cmd.Ex, opts("Toggle Netrw Explore Mode"))
 
 -- ===============================================
 -- Map 'jk' to exit Insert or visual mode
 -- ===============================================
-keymap({ "i", "v" }, "jk", "<Esc>", { desc = "exit Insert mode", noremap = true, silent = true })
+keymap({ "i", "v" }, "jk", "<Esc>", { desc = "Exit Insert mode", noremap = true, silent = true })
 
 -- ===============================================
--- replaces selected text WITHOUT losing what you yanked
+-- Replaces selected text WITHOUT losing what you yanked
 -- ===============================================
-keymap("x", "p", [["_dp]], { desc = "Paste over selection without losing yanked text" })
+keymap("x", "p", [["_dp]], opts("Paste over selection without losing yanked text"))
 
 -- ===============================================
 -- Delete text without saving it to any registers
 -- ===============================================
-keymap({ "n", "v" }, "<leader>d", [["_d]], { desc = "Delete without yanking" })
+keymap({ "n", "v" }, "<leader>d", [["_d]], opts("Delete without yanking"))
 
 -- ===============================================
--- clear search highlighting
+-- Clear search highlighting
 -- ===============================================
-keymap("n", "<leader>ti", "<cmd>nohlsearch<cr>", { desc = "Clear search highlighting", silent = true })
+keymap("n", "<leader>ti", "<cmd>nohlsearch<cr>", opts("Clear search highlighting"))
 
 -- ===============================================
--- visual line movements
+-- Visual line movements
 -- ===============================================
-keymap("v", "J", ":m '>+1<CR>gv=gv", { desc = "moves lines down in visual selection" })
-keymap("v", "K", ":m '>-2<CR>gv=gv", { desc = "moves lines up in visual selection" })
-keymap("v", "<", "<gv", { desc = "Unindent and keep selection" })
-keymap("v", ">", ">gv", { desc = "Indent and keep selection" })
+keymap("v", "J", ":m '>+1<CR>gv=gv", opts("Moves lines down in visual selection"))
+keymap("v", "K", ":m '>-2<CR>gv=gv", opts("Moves lines up in visual selection"))
+keymap("v", "<", "<gv", opts("Unindent and keep selection"))
+keymap("v", ">", ">gv", opts("Indent and keep selection"))
 
 -- ===============================================
--- join lines
+-- Join lines
 -- ===============================================
-keymap("n", "J", "mzJ'z", { desc = "Join lines without moving cursor" })
+keymap("n", "J", "mzJ'z", opts("Join lines without moving cursor"))
 
 -- ===============================================
--- center cursor while moving in buffer
+-- Center cursor while moving in buffer
 -- ===============================================
-keymap("n", "<C-d>", "<C-d>zz", { desc = "move down in buffer with cursor centered" })
-keymap("n", "<C-u>", "<C-u>zz", { desc = "move up in buffer with cursor centered" })
-keymap("n", "n", "nzzzv", { desc = "Next search result cursor centered" })
-keymap("n", "N", "Nzzzv", { desc = "Previous search result cursor centered" })
+keymap("n", "<C-d>", "<C-d>zz", opts("Move down in buffer with cursor centered"))
+keymap("n", "<C-u>", "<C-u>zz", opts("Move up in buffer with cursor centered"))
+keymap("n", "n", "nzzzv", opts("Next search result cursor centered"))
+keymap("n", "N", "Nzzzv", opts("Previous search result cursor centered"))
 
 -- ================================================
--- replace the word at the cursor
+-- Replace the word at the cursor
 -- ================================================
-keymap("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace word cursor" })
+keymap("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], opts("Replace word cursor"))
 
 -- =================================================
 -- Makes an executable file
 -- =================================================
-keymap("n", "<leader>X", "<cmd>!chmod +x %<CR>", { silent = true, desc = "makes file executable" })
+keymap("n", "<leader>X", "<cmd>!chmod +x %<CR>", opts("Makes file executable"))
 
 -- =================================================
--- shortcut to restart nvim
+-- Shortcut to restart nvim
 -- =================================================
-keymap("n", "<leader>re", "<cmd>restart<CR>", { desc = "Restart Neovim (:restart)" })
+keymap("n", "<leader>re", "<cmd>restart<CR>", opts("Restart Neovim (:restart)"))
 
 -- ==================================================
 -- Telescope Fuzzy Finder Fast Hooks
 -- ==================================================
-keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find Files" })
-keymap("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Live Grep" })
-keymap("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Find Buffers" })
-keymap("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Help Tags" })
+keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", opts("Find Files"))
+keymap("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", opts("Live Grep"))
+keymap("n", "<leader>fb", "<cmd>Telescope buffers<cr>", opts("Find Buffers"))
+keymap("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", opts("Help Tags"))
 
 -- ===================================================
 -- Fugitive Git Control Basics
 -- ===================================================
-keymap("n", "<leader>gs", "<cmd>Git<CR>", { desc = "Git Status Pane" })
-keymap("n", "<leader>gd", "<cmd>Gdiffsplit<CR>", { desc = "Git Diff Split" })
-keymap("n", "<leader>gc", "<cmd>Git commit<CR>", { desc = "Git Commit" })
+keymap("n", "<leader>gs", "<cmd>Git<CR>", opts("Git Status Pane"))
+keymap("n", "<leader>gd", "<cmd>Gdiffsplit<CR>", opts("Git Diff Split"))
+keymap("n", "<leader>gc", "<cmd>Git commit<CR>", opts("Git Commit"))
 
 -- ====================================================
 -- GitGutter Hunk Jumps
 -- ====================================================
-keymap("n", "]c", "<cmd>GitGutterNextHunk<CR>", { desc = "Next Git Hunk" })
-keymap("n", "[c", "<cmd>GitGutterPrevHunk<CR>", { desc = "Previous Git Hunk" })
-keymap("n", "<leader>gh", "<cmd>GitGutterStageHunk<CR>", { desc = "Stage Current Hunk" })
-keymap("n", "<leader>gu", "<cmd>GitGutterUndoHunk<CR>", { desc = "Undo Current Hunk" })
+keymap("n", "]c", "<cmd>GitGutterNextHunk<CR>", opts("Jump to Next Git Hunk"))
+keymap("n", "[c", "<cmd>GitGutterPrevHunk<CR>", opts("Jump to Previous Git Hunk"))
 
--- Replaced the auto-pairing loop at the bottom with this:
+-- ====================================================
+-- Native LSP Diagnostics Fast-Jumps
+-- ====================================================
+keymap("n", "[d", vim.diagnostic.goto_prev, opts("Go to Previous LSP Diagnostic Error"))
+keymap("n", "]d", vim.diagnostic.goto_next, opts("Go to Next LSP Diagnostic Error"))
+keymap("n", "<leader>dl", vim.diagnostic.setloclist, opts("Open LSP Diagnostic Local List"))
 
-local native_pairs = { ["("] = ")", ["["] = "]", ["{"] = "}", ['"'] = '"', ["'"] = "'" }
-for open_char, close_char in pairs(native_pairs) do
-	vim.keymap.set("i", open_char, function()
-		local ok, node = pcall(vim.treesitter.get_node)
+-- =========================================================================
+-- CONDITIONAL AUTO-PAIRING FOR TEXT FILES
+-- =========================================================================
 
-		-- 🚀 FIX: Only block pairing inside explicit strings or comment scopes.
-		-- This allows brackets to insert inside unfinished syntax or ERROR nodes!
-		if ok and node then
-			local type = node:type()
-			if type == "comment" or type == "string" or type == "character_literal" then
-				return open_char
-			end
-		end
-
-		return open_char .. close_char .. "<Left>"
-	end, { expr = true, desc = "Native auto-pair " .. open_char })
+local function is_text_file()
+	return vim.bo.filetype == "text" or vim.bo.filetype == "plaintext" or vim.bo.filetype == ""
 end
 
--- ======================================================
--- Conform Code Formatter Trigger
--- ======================================================
-keymap({ "n", "v" }, "<leader>f", function()
-	require("conform").format({
-		lsp_fallback = true,
-		async = false,
-		timeout_ms = 500,
-	})
-end, { desc = "Format Document/Selection" })
+local bracket_pairs = {
+	["("] = ")",
+	["["] = "]",
+	["{"] = "}",
+	['"'] = '"',
+	["`"] = "`",
+}
 
--- ================================================
--- Use Neovims Native undotree
--- =================================================
-keymap("n", "<leader>u", function()
-	vim.cmd.packadd("nvim.undotree")
-	require("undotree").open()
-end, { desc = "Toggle Builtin Undotree" })
-
--- ~/.config/nvim/lua/config/keybinds.lua
--- 🚀 Add word under cursor to global cspell dictionary
-
-vim.keymap.set("n", "<leader>sa", function()
-	local word = vim.fn.expand("<cword>") -- Captures the literal word under the cursor
-	if word == "" then
-		return
-	end
-
-	local cspell_path = vim.fn.expand("~/.cspell.json")
-
-	-- If the configuration file doesn't exist yet, initialize it
-	if vim.fn.filereadable(cspell_path) == 0 then
-		local initial_json = '{\n  "version": "0.2",\n  "language": "en",\n  "words": [],\n  "flagWords": []\n}'
-		local f = io.open(cspell_path, "w")
-		if f then
-			f:write(initial_json)
-			f:close()
-		end
-	end
-
-	-- Read and append the word to the words array block dynamically
-	local file = io.open(cspell_path, "r")
-	if not file then
-		return
-	end
-	local content = file:read("*a")
-	file:close()
-
-	-- Check if the word is already tracked to avoid duplicates
-	if content:find('"' .. word .. '"') then
-		vim.notify("🔤 '" .. word .. "' is already in cspell dictionary.", vim.log.levels.WARN)
-		return
-	end
-
-	-- Simple regex substitution to push the word into the array structural bounds
-	local updated_content = content:gsub('"words":%s*%[', '"words": [\n    "' .. word .. '",')
-
-	local write_file = io.open(cspell_path, "w")
-	if write_file then
-		write_file:write(updated_content)
-		write_file:close()
-		vim.notify("📝 Added '" .. word .. "' to cspell dictionary!", vim.log.levels.INFO)
-
-		-- Force cspell_ls to refresh its buffer highlights instantly if active
-		vim.cmd("edit!")
-	end
-end, { desc = "Add Word under Cursor to cspell" })
-
--- ~/.config/nvim/lua/config/keybinds.lua
--- 🚀 Manual C Compilation & Run Trigger Shortcut
-
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "c", "cpp" },
-	callback = function()
-		vim.keymap.set("n", "<leader>tc", function()
-			-- 🩺 LSP SAFETY CHECK: Count active syntax errors before compiling
-			local errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
-			if errors > 0 then
-				vim.notify("⚠️ Manual compile blocked: Fix active syntax errors first.", vim.log.levels.WARN)
-				return
-			end
-
-			local target_dir = vim.fn.expand("%:p:h")
-			local file_name = vim.fn.expand("%:t")
-			local base_name = vim.fn.expand("%:t:r")
-			local extension = vim.fn.expand("%:e")
-
-			-- Dynamically switch compiler binary based on file extension
-			local compiler = (extension == "cpp" or extension == "cc") and "g++" or "gcc"
-			local exec_cmd = compiler .. " " .. file_name .. " -o " .. base_name .. " && ./" .. base_name
-			local final_payload = exec_cmd .. ' && echo "" && read -p "Press [Enter] to close..." _ && exit'
-
-			-- Explicitly ensure ToggleTerm is awake and pass it to the native Lua API executor
-			require("lazy").load({ plugins = { "toggleterm.nvim" } })
-			require("toggleterm").exec(final_payload, 100, nil, target_dir, "float")
-
-			vim.notify("🔨 C/C++ Compilation initialized...", vim.log.levels.INFO)
-		end, { buffer = true, desc = "Compile and Run C/C++ Script" })
-	end,
-})
+-- -- Apply conditional keymaps for standard brackets and double quotes
+-- for open, close in pairs(bracket_pairs) do
+-- 	keymap("i", open, function()
+-- 		if is_text_file() then
+-- 			return open .. close .. "<Left>"
+-- 		else
+-- 			return open
+-- 		end
+-- 	end, { expr = true, noremap = true, silent = true, desc = "Text file auto-pairing" })
+-- end
+--
+-- -- Isolated single quote definition with expression rendering
+-- keymap("i", "'", function()
+-- 	return "'"
+-- end, { expr = true, noremap = true, silent = true, desc = "Literal single quotes with zero auto-pairing" })
+--
+-- -- Unified backspace cleaning engine for text boundaries
+-- keymap("i", "<BS>", function()
+-- 	if is_text_file() then
+-- 		-- FIX: Direct array assignment completely bypasses the deprecated/broken unpack function
+-- 		local cursor = vim.api.nvim_win_get_cursor(0)
+-- 		local col = cursor[2] -- Index 2 is the exact character column tracking byte
+--
+-- 		local line = vim.api.nvim_get_current_line()
+-- 		local left_char = line:sub(col, col)
+-- 		local right_char = line:sub(col + 1, col + 1)
+--
+-- 		local pairs_str = '()[]{}""``'
+-- 		for i = 1, #pairs_str, 2 do
+-- 			if left_char == pairs_str:sub(i, i) and right_char == pairs_str:sub(i + 1, i + 1) then
+-- 				return "<BS><Del>"
+-- 			end
+-- 		end
+-- 	end
+-- 	return "<BS>"
+-- end, { expr = true, noremap = true, silent = true, desc = "Smart backspace for standard text pairs" })

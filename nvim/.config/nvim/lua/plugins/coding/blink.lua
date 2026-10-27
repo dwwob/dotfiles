@@ -1,5 +1,3 @@
--- -- ~/.dotfiles/nvim/.config/nvim/lua/plugins/coding/blink.lua
-
 -- ~/.config/nvim/lua/plugins/coding/blink.lua
 
 return {

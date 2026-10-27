@@ -171,3 +171,7 @@ You can target bleeding-edge compiler architectures dynamically. By placing a sp
 To add a word under your cursor to your global dictionary so it permanently stops throwing red squiggly spelling annotations, press **`<leader>sa`** in Normal mode. This instantly writes the raw text to `~/.cspell.json` and updates active buffer diagnostics dynamically.
 
 ### 🌈 Rainbow Indentation & COBOL Formatting
+
+## Bonus
+
+If you are diabetic move this file to you Documents folder (diabetes_meal_plan_template.md) then you can type mealplan in you shell for a sample 3 day meal plan and glucose tracker. The plan will let you enter you info multiple times a day and keep track then when it is the next day it will start a new tracking when you invoke mealplan for that day. Each of your Daley logs will be in you Document folder by date. This dose not send any data or trackers, it is all kept on your computer as long as you keep it in the Document folder.

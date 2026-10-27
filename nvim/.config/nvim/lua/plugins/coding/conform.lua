@@ -19,6 +19,9 @@ return {
 			c = { "clang_format" },
 			cpp = { "clang_format" },
 			java = { "google-java-format" },
+			sh = { "shfmt" },
+			bash = { "shfmt" },
+			zsh = { "shfmt" },
 		},
 
 		-- 2. Configure background options for save-triggers
