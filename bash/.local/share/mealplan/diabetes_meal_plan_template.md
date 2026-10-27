@@ -73,6 +73,7 @@
 
 ### 🩸 GLUCOSE TRACKING
 
+- **Last Lab A1C:** ___%
 - **Fasting (Morning):** ____ mg/dL _(Target: Under 100-130 mg/dL)_
 - **Post-Breakfast (2hr):** _____ mg/dL _(Target: Under 180 mg/dL)_
 - **Post-Lunch (2hr):** _____ mg/dL
