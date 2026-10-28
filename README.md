@@ -28,7 +28,8 @@ The layout utilizes a highly granular architecture. By grouping plugins into iso
                 ├── config/
                 │   ├── options.lua   # Global preferences (line numbers, wrapping layouts)
                 │   ├── keybinds.lua  # General keymaps, native bracket matching, & cspell additions
-                │   └── auto.lua      # Async save compilers (C23, C++23, Python, COBOL) & LSP toasts
+                │   └── auto.lua      # Async save compilers (C23, C++23, Python, COBOL) & LSP toast
+                        filetyps.lua  # Defining new filetypes.
                 └── plugins/
                     ├── coding/               # Language Parsing, LSP, & Completion Engine
                     │   ├── blink.lua         # Fast completion engine & snippet engine definitions
@@ -174,4 +175,4 @@ To add a word under your cursor to your global dictionary so it permanently stop
 
 ## Bonus
 
-If you are diabetic move this file to you Documents folder (diabetes_meal_plan_template.md) then you can type mealplan in you shell for a sample 3 day meal plan and glucose tracker. The plan will let you enter you info multiple times a day and keep track then when it is the next day it will start a new tracking when you invoke mealplan for that day. Each of your Daley logs will be in you Document folder by date. This dose not send any data or trackers, it is all kept on your computer as long as you keep it in the Document folder.
+If you are diabetic you can type mealplan in you shell for a sample 3 day meal plan and glucose tracker. The plan will let you enter you info multiple times a day and keep track then when it is the next day it will start a new tracking when you invoke mealplan for that day. Each of your Daley logs will be in your Document folder by date. This dose not send any data or trackers it is all kept in the Document folder. Make sure you source your bashrc before it will work. If your bashrc didn't update to the new one than just copy and paste from that section of my bashrc to your bashrc and then save and source bashrc. Then just type mealplan in your shell. (only tested on bash)
