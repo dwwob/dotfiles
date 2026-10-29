@@ -1,0 +1,1 @@
+.local/bin/update_mealplan.py
