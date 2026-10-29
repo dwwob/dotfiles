@@ -1,0 +1,1 @@
+bash/.powerlineconfig.sh

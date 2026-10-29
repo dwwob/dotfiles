@@ -57,7 +57,7 @@ vim.opt.cmdheight = 1 -- Dropped to 1 for more vertical space; perfect for mini.
 -- ==========================================
 -- Spell Checker Settings
 -- ==========================================
-vim.opt.spell = true
+vim.opt.spell = false
 vim.opt.spelllang = { "en_us" }
 
 -- ==========================================
@@ -91,10 +91,10 @@ vim.opt.titlestring = "NVIM 🦎 %{expand('%:p:~')}"
 
 -- Autocommand to highlight text selections on copy yank
 vim.api.nvim_create_autocmd("TextYankPost", {
-	desc = "Highlight when yanking (copying) text",
-	callback = function()
-		vim.hl.on_yank()
-	end,
+  desc = "Highlight when yanking (copying) text",
+  callback = function()
+    vim.hl.on_yank()
+  end,
 })
 
 
@@ -103,37 +103,36 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- =========================================================================
 
 -- Define clean, modern diagnostic signs/icons
-local signs = { Error = "   ", Warn = "   ", Hint = "   ", Info = "   " }
+local signs = { Error = "  ", Warn = "  ", Hint = "  ", Info = "  " }
 
 -- Configure native diagnostic layout engine
 vim.diagnostic.config({
-	-- Disable inline virtual text to keep your lines clean (toggle with <leader>td)
-	virtual_text = false,
+  -- Disable inline virtual text to keep your lines clean (toggle with <leader>td)
+  virtual_text = false,
 
-	-- Set modern signs directly inside the config table (No signdefine loop!)
-	signs = {
-		text = {
-			[vim.diagnostic.severity.ERROR] = signs.Error,
-			[vim.diagnostic.severity.WARN]  = signs.Warn,
-			[vim.diagnostic.severity.HINT]  = signs.Hint,
-			[vim.diagnostic.severity.INFO]  = signs.Info,
-		},
-	},
+  -- Set modern signs directly inside the config table (No signdefine loop!)
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = signs.Error,
+      [vim.diagnostic.severity.WARN]  = signs.Warn,
+      [vim.diagnostic.severity.HINT]  = signs.Hint,
+      [vim.diagnostic.severity.INFO]  = signs.Info,
+    },
+  },
 
-	-- Enable undercurls/underlines for errors
-	underline = true,
+  -- Enable undercurls/underlines for errors
+  underline = true,
 
-	-- Sort diagnostics by severity
-	severity_sort = true,
+  -- Sort diagnostics by severity
+  severity_sort = true,
 
-	-- Customize the floating hover window layout (triggered by vim.diagnostic.open_float)
-	float = {
-		focused = false,
-		style = "minimal",
-		border = "rounded",
-		source = "always", -- Shows the name of the LSP server generating the error
-		header = "",
-		prefix = "",
-	},
+  -- Customize the floating hover window layout (triggered by vim.diagnostic.open_float)
+  float = {
+    focused = false,
+    style = "minimal",
+    border = "rounded",
+    source = "always", -- Shows the name of the LSP server generating the error
+    header = "",
+    prefix = "",
+  },
 })
-

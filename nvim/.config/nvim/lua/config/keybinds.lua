@@ -8,7 +8,7 @@ local default_opts = { silent = true }
 
 -- Helper function to cleanly combine silent defaults with unique descriptions
 local function opts(description)
-	return vim.tbl_deep_extend("force", default_opts, { desc = description })
+  return vim.tbl_deep_extend("force", default_opts, { desc = description })
 end
 
 -- =========================================================================
@@ -17,42 +17,42 @@ end
 
 -- <leader>tw: Toggle Deprecation Warnings
 keymap("n", "<leader>tw", function()
-	vim.g.deprecation_warnings = not vim.g.deprecation_warnings
-	if vim.g.deprecation_warnings then
-		vim.notify("⚠️ Deprecation Warnings: ENABLED (Show Logs)", vim.log.levels.WARN)
-	else
-		vim.notify("🔇 Deprecation Warnings: MUTED (Clean Screen)", vim.log.levels.INFO)
-	end
+  vim.g.deprecation_warnings = not vim.g.deprecation_warnings
+  if vim.g.deprecation_warnings then
+    vim.notify("⚠️ Deprecation Warnings: ENABLED (Show Logs)", vim.log.levels.WARN)
+  else
+    vim.notify("🔇 Deprecation Warnings: MUTED (Clean Screen)", vim.log.levels.INFO)
+  end
 end, opts("Toggle Deprecation Warnings"))
 
 -- <leader>tn: Toggle between Relative and Fixed Absolute Line Numbers
 keymap("n", "<leader>tn", function()
-	vim.o.relativenumber = not vim.o.relativenumber
-	local status = vim.o.relativenumber and "RELATIVE" or "ABSOLUTE"
-	vim.notify("🔢 Line Numbers: " .. status, vim.log.levels.INFO)
+  vim.o.relativenumber = not vim.o.relativenumber
+  local status = vim.o.relativenumber and "RELATIVE" or "ABSOLUTE"
+  vim.notify("🔢 Line Numbers: " .. status, vim.log.levels.INFO)
 end, opts("Toggle Relative Line Numbers"))
 
 -- <leader>ts: Toggle Spell Checking
 keymap("n", "<leader>ts", function()
-	vim.o.spell = not vim.o.spell
-	vim.notify("🔤 Spell Check: " .. (vim.o.spell and "ON" or "OFF"), vim.log.levels.INFO)
+  vim.o.spell = not vim.o.spell
+  vim.notify("🔤 Spell Check: " .. (vim.o.spell and "ON" or "OFF"), vim.log.levels.INFO)
 end, opts("Toggle Spell Check"))
 
 -- <leader>tl: Toggle Line Wrap
 keymap("n", "<leader>tl", function()
-	vim.o.wrap = not vim.o.wrap
-	vim.notify("↔️ Line Wrap: " .. (vim.o.wrap and "ON" or "OFF"), vim.log.levels.INFO)
+  vim.o.wrap = not vim.o.wrap
+  vim.notify("↔️ Line Wrap: " .. (vim.o.wrap and "ON" or "OFF"), vim.log.levels.INFO)
 end, opts("Toggle Line Wrap"))
 
 -- <leader>td: Toggle Inline LSP Diagnostics (Updated for Neovim 12.5+)
 keymap("n", "<leader>td", function()
-	if vim.diagnostic.is_paused() then
-		vim.diagnostic.resume()
-		vim.notify("👁️ Diagnostics Visible", vim.log.levels.INFO)
-	else
-		vim.diagnostic.pause()
-		vim.notify("🙈 Diagnostics Hidden", vim.log.levels.INFO)
-	end
+  if vim.diagnostic.is_paused() then
+    vim.diagnostic.resume()
+    vim.notify("👁️ Diagnostics Visible", vim.log.levels.INFO)
+  else
+    vim.diagnostic.pause()
+    vim.notify("🙈 Diagnostics Hidden", vim.log.levels.INFO)
+  end
 end, opts("Toggle Inline LSP Diagnostics"))
 
 -- =========================================================================
@@ -61,11 +61,11 @@ end, opts("Toggle Inline LSP Diagnostics"))
 
 -- <leader>tg: Toggle Floating Lazygit Popup Application
 keymap("n", "<leader>tg", function()
-	if _G.toggle_lazygit then
-		_G.toggle_lazygit()
-	else
-		vim.notify("❌ Lazygit module not loaded yet", vim.log.levels.ERROR)
-	end
+  if _G.toggle_lazygit then
+    _G.toggle_lazygit()
+  else
+    vim.notify("❌ Lazygit module not loaded yet", vim.log.levels.ERROR)
+  end
 end, opts("Toggle Lazygit Dashboard"))
 
 -- <leader>th: Toggle Horizontal Split Terminal Window
@@ -193,50 +193,13 @@ keymap("n", "<leader>dl", vim.diagnostic.setloclist, opts("Open LSP Diagnostic L
 -- =========================================================================
 
 local function is_text_file()
-	return vim.bo.filetype == "text" or vim.bo.filetype == "plaintext" or vim.bo.filetype == ""
+  return vim.bo.filetype == "text" or vim.bo.filetype == "plaintext" or vim.bo.filetype == ""
 end
 
 local bracket_pairs = {
-	["("] = ")",
-	["["] = "]",
-	["{"] = "}",
-	['"'] = '"',
-	["`"] = "`",
+  ["("] = ")",
+  ["["] = "]",
+  ["{"] = "}",
+  ['"'] = '"',
+  ["`"] = "`",
 }
-
--- -- Apply conditional keymaps for standard brackets and double quotes
--- for open, close in pairs(bracket_pairs) do
--- 	keymap("i", open, function()
--- 		if is_text_file() then
--- 			return open .. close .. "<Left>"
--- 		else
--- 			return open
--- 		end
--- 	end, { expr = true, noremap = true, silent = true, desc = "Text file auto-pairing" })
--- end
---
--- -- Isolated single quote definition with expression rendering
--- keymap("i", "'", function()
--- 	return "'"
--- end, { expr = true, noremap = true, silent = true, desc = "Literal single quotes with zero auto-pairing" })
---
--- -- Unified backspace cleaning engine for text boundaries
--- keymap("i", "<BS>", function()
--- 	if is_text_file() then
--- 		-- FIX: Direct array assignment completely bypasses the deprecated/broken unpack function
--- 		local cursor = vim.api.nvim_win_get_cursor(0)
--- 		local col = cursor[2] -- Index 2 is the exact character column tracking byte
---
--- 		local line = vim.api.nvim_get_current_line()
--- 		local left_char = line:sub(col, col)
--- 		local right_char = line:sub(col + 1, col + 1)
---
--- 		local pairs_str = '()[]{}""``'
--- 		for i = 1, #pairs_str, 2 do
--- 			if left_char == pairs_str:sub(i, i) and right_char == pairs_str:sub(i + 1, i + 1) then
--- 				return "<BS><Del>"
--- 			end
--- 		end
--- 	end
--- 	return "<BS>"
--- end, { expr = true, noremap = true, silent = true, desc = "Smart backspace for standard text pairs" })
