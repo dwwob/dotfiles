@@ -1,1 +1,0 @@
-bash/diabetes_meal_plan_template.md
