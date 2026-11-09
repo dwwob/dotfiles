@@ -1,7 +1,7 @@
 # =========================================================================
 # 🐧 CORE SYSTEM TERMINAL ALIASES & RESTRUCTURING DEFINITIONS
-# =========================================================================
-#
+# =========================================================================#
+fastfetch
 # =========================================================================
 # 🩺 MEDICAL & HEALTH WORKFLOW SHORTCUTS
 # =========================================================================
@@ -47,6 +47,7 @@ alias l="ls -CF"
 alias ll="ls -lahF"
 alias la="ls -A"
 alias ld="ls -a --color=auto"
+alias ff="fastfetch"
 
 # ========================================
 # HIGH VISIBILITY PATTERN SEARCHING
@@ -64,7 +65,7 @@ alias mv="mv -i"
 # SYSTEM PERFORMANCE & LIFECYCLE MANAGEMENT
 # ==========================================
 # Quick reload of the shell environment variables and rules
-alias reload="source ~/.bashrc && echo '🔄 Bash configuration successfully reloaded!'"
+alias reload="clear && source ~/.bashrc && echo '🔄 Bash configuration successfully reloaded!'"
 alias cls="clear"
 
 # =========================================================================
@@ -102,3 +103,43 @@ alias gll="git log --oneline --graph --decorate"
 
 # Advanced tree graph log layout (Perfect for monitoring complex cross-machine merges)
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+
+# =========================================================================
+# 🐳 AUTOMATED WORDPRESS & PODMAN CONTAINER ENVIRONMENT WORKFLOWS
+# =========================================================================
+
+# 1. Start your development environment and instantly repair volume locks
+wp-start() {
+  echo "🚀 Waking up your Podman WordPress infrastructure stack..."
+  cd ~/projects/my-wordpress-site || return 1
+  podman-compose up -d
+
+  echo "🔒 Overriding container filesystem security masks..."
+  podman unshare chown -R 0:33 wp-content
+  podman unshare chmod -R 775 wp-content
+
+  echo "✨ Development workspace is fully live at http://localhost:8080"
+  echo "🛠️  Neovim permissions successfully unlocked!"
+}
+
+# 2. Stop your environment safely to save system resources
+wp-stop() {
+  echo "🛑 Shutting down container operations gracefully..."
+  cd ~/projects/my-wordpress-site || return 1
+  podman-compose down
+  echo "🔌 Environment suspended."
+}
+
+# 3. Snapshot your code adjustments and push them upstream to GitHub
+wp-push() {
+  pushd ~/projects/my-wordpress-site >/dev/null || return 1
+  echo "📦 Running Git workspace track check..."
+  git status -sb
+
+  git add .
+  git commit -m "${1:-'feat: adjust custom layout architecture properties'}"
+  git push origin main
+
+  echo "🚀 Source code successfully secured on GitHub!"
+  popd >/dev/null
+}

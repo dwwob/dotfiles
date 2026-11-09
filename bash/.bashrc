@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Sample .bashrc for SUSE Linux
 # Copyright (c) SUSE Software Solutions Germany GmbH
 
@@ -12,9 +13,9 @@
 
 # Silence the standalone system tTY tool reporting errors during Yakuake tab mapping
 if [[ "$TERM" == "xterm-256color" || "$yakuake" || "$KONSOLE_VERSION" ]]; then
-    function tty() {
-        command tty "$@" 2>/dev/null
-    }
+  function tty() {
+    command tty "$@" 2>/dev/null
+  }
 fi
 
 # =========================================================================
@@ -24,7 +25,7 @@ export PAGER="most"
 
 # Call powerline-go configs
 if [ -f ~/.powerlineconfig.sh ]; then
-    source ~/.powerlineconfig.sh
+  source ~/.powerlineconfig.sh
 fi
 
 # =========================================================================
@@ -32,12 +33,12 @@ fi
 # =========================================================================
 test -s ~/.alias && . ~/.alias || true
 
-if [ -f "$HOME/.bash_aliases" ]; then
-    . "$HOME/.bash_aliases"
+if [ -f ~/.bash_aliases ]; then
+  . ~/.bash_aliases
 fi
 
-if [ -f "$HOME/.bash_aliases_local" ]; then
-    . "$HOME/.bash_aliases_local"
+if [ -f ~/.bash_aliases_local ]; then
+  . ~/.bash_aliases_local
 fi
 
 # =========================================================================
