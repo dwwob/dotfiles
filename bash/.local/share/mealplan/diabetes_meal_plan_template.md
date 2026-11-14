@@ -63,9 +63,12 @@
 ## 📋 Questions to Bring to Your Doctor
 
 1. **Metformin Effectiveness:** Given that my HbA1c is currently at 10% after 6 years of diagnosis, is my current dose of Metformin still sufficient, or do we need to temporarily adjust it to bring my numbers down safely?
-2. **Addressing Symptoms:** I am experiencing frequent urination right now. Are my kidneys spilling glucose because of the 10% baseline, and what is our target blood sugar range to stop this symptom?
+
+<!-- 2. **Addressing Symptoms:** I am experiencing frequent urination right now. Are my kidneys spilling glucose because of the 10% baseline, and what is our target blood sugar range to stop this symptom? -->
+
 3. **Dietary Adjustments:** I am starting an intensive low-carbohydrate, high-fiber dietary plan to lower my blood sugar naturally. Do I need to monitor for low blood sugar (hypoglycemia), or does Metformin remain safe to take alongside a low-carb routine?
-4. **OTC Monitoring:** I plan to start using an over-the-counter Continuous Glucose Monitor (like a Dexcom Stelo). What daily fasting and post-meal glucose numbers should I be aiming for on the log?
+
+<!-- 4. **OTC Monitoring:** I plan to start using an over-the-counter Continuous Glucose Monitor (like a Dexcom Stelo). What daily fasting and post-meal glucose numbers should I be aiming for on the log? -->
 
 ---
 
@@ -82,8 +85,10 @@
 
 ### 💊 MEDICATION & SYMPTOMS
 
-- **Metformin Dose:** [ ] AM / [ ] PM
-- **Frequent Urination:** [ ] None / [ ] Mild / [ ] Active
+<!-- - **Metformin Dose:**1000mg [x] AM / [x] PM -->
+
+- **Metformin Dose:** AM ____mg [ ] / PM ____mg [ ]
+- **Frequent Urination:** [x] None / [ ] Mild / [ ] Active
 - **Water Intake:** _____ / 8 Glasses
 
 ### 🥗 NUTRITION & CARB INPUT
@@ -97,4 +102,6 @@
 ### 🚶 PHYSICAL MOVEMENT
 
 - **Post-Dinner 15-Min Walk:** [ ] Completed / [ ] Missed
-- **CGM Drop Check:** Started at _____ mg/dL ➡️ Dropped to _____ mg/dL
+- **CGM Drop Check:** ______
+- **Started at:** _______ mg/dL ➡️
+- **Dropped to:** _______ mg/dL

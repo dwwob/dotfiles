@@ -1,6 +1,7 @@
 # =========================================================================
 # SYSTEM SPECIFIC / LOCAL CACHE LOGS
 # =========================================================================
+
 .DS_Store
 Thumbs.db
 *.swp
@@ -10,6 +11,7 @@ Thumbs.db
 # =========================================================================
 # NEOVIM AUTOMATED STORAGE & RUNTIME CACHES (EXCLUDE ALL)
 # =========================================================================
+
 # Exclude lazy.nvim downloaded plugin repositories on your host machine
 nvim/.config/nvim/.lazy/
 nvim/.config/nvim/lazy-lock.json
@@ -23,6 +25,7 @@ nvim/.config/nvim/shada/
 # =========================================================================
 # PYTHON / COMPILER GENERATED BUILDS
 # =========================================================================
+
 __pycache__/
 *.pyc
 *.o
@@ -31,6 +34,7 @@ __pycache__/
 # =========================================================================
 # NODE.JS / NPM DEPENDENCIES
 # =========================================================================
+
 node_modules/
 .npm/
 npm-debug.log*
@@ -40,3 +44,50 @@ yarn-error.log*
 package-lock.json
 pnpm-lock.yaml
 yarn.lock
+
+
+
+
+
+# # =========================================================================
+# # SYSTEM SPECIFIC / LOCAL CACHE LOGS
+# # =========================================================================
+# .DS_Store
+# Thumbs.db
+# *.swp
+# *.swo
+# *~
+#
+# # =========================================================================
+# # NEOVIM AUTOMATED STORAGE & RUNTIME CACHES (EXCLUDE ALL)
+# # =========================================================================
+# # Exclude lazy.nvim downloaded plugin repositories on your host machine
+# nvim/.config/nvim/.lazy/
+# nvim/.config/nvim/lazy-lock.json
+#
+# # Exclude local runtime state caches if they get symlinked or copied inside
+# nvim/.config/nvim/.netrwhist
+# nvim/.config/nvim/undo/
+# nvim/.config/nvim/view/
+# nvim/.config/nvim/shada/
+#
+# # =========================================================================
+# # PYTHON / COMPILER GENERATED BUILDS
+# # =========================================================================
+# __pycache__/
+# *.pyc
+# *.o
+# *.out
+#
+# # =========================================================================
+# # NODE.JS / NPM DEPENDENCIES
+# # =========================================================================
+# node_modules/
+# .npm/
+# npm-debug.log*
+# yarn-debug.log*
+# yarn-error.log*
+# .pnpm-debug.log*
+# package-lock.json
+# pnpm-lock.yaml
+# yarn.lock
