@@ -1,3 +1,4 @@
+-- ~/.config/nvim/lua/config/auto.lua
 -- =========================================================================
 -- 1. ASYNC BACKGROUND SAVE-COMPILERS (WITH FOOLPROOF C23 BYPASS)
 -- =========================================================================
@@ -5,7 +6,7 @@ local compile_group = vim.api.nvim_create_augroup("AutoCompileAndRun", { clear =
 
 vim.api.nvim_create_autocmd("BufWritePost", {
 	group = compile_group,
-	pattern = { "*.c", "*.cpp", "*.py", "*.cob", "*.cbl", "*.sh" },
+	pattern = { "*.c", "*.cpp", "*.cc", "*.py", "*.cob", "*.cbl", "*.sh" },
 	callback = function()
 		local target_dir = vim.fn.expand("%:p:h")
 		local file_name = vim.fn.expand("%:t")
@@ -19,7 +20,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 		if extension == "py" then
 			exec_cmd = "python3 " .. file_name
 		elseif extension == "c" then
-			-- 🚀 FIXED: Extract the first index string out of the table buffer array cleanly
+			-- Extract the first line out of the buffer cleanly
 			local lines = vim.api.nvim_buf_get_lines(0, 0, 1, false)
 			local first_line = (lines and lines[1]) or ""
 			local std_flag = ""
@@ -27,12 +28,12 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 			-- Uses direct literal lookups to turn off regex parsing errors
 			if first_line:find("std=c23", 1, true) or first_line:find("std=gnu23", 1, true) then
 				std_flag = " -std=gnu23 "
-				bypass_error_check = true -- 🚀 UNLOCKED: Let GCC handle compiling directly
+				bypass_error_check = true -- Let GCC handle compiling directly
 			end
 
 			exec_cmd = "gcc " .. file_name .. std_flag .. " -o " .. base_name .. " && ./" .. base_name
 		elseif extension == "cpp" or extension == "cc" then
-			-- 🚀 FIXED: Extract the first index string out of the table buffer array cleanly
+			-- Extract the first line out of the buffer cleanly
 			local lines = vim.api.nvim_buf_get_lines(0, 0, 1, false)
 			local first_line = (lines and lines[1]) or ""
 			local std_flag = ""
@@ -49,10 +50,10 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 		elseif extension == "cob" or extension == "cbl" then
 			exec_cmd = "cobc -x " .. file_name .. " && ./" .. base_name
 		elseif extension == "sh" then
-			exec_cmd = "./" .. file_name
+			exec_cmd = "chmod +x " .. file_name .. " && ./" .. file_name
 		end
 
-		-- 🩺 LSP SAFETY CHECK: Run only if we aren't bypassing it for a modern standard
+		-- LSP safety check: run only if we aren't bypassing it for a modern standard
 		if not bypass_error_check then
 			local active_diagnostics = vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
 			local critical_syntax_errors = 0

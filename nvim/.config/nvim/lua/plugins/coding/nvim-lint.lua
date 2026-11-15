@@ -1,3 +1,8 @@
+-- ~/.config/nvim/lua/plugins/coding/nvim-lint.lua
+--
+-- =========================================================================
+-- Nvim-Lint
+-- =========================================================================
 return {
 	"mfussenegger/nvim-lint",
 	event = { "BufReadPost", "BufNewFile" },
@@ -9,6 +14,19 @@ return {
 			text = { "write_good" },
 		}
 
+		-- Gutter sign for write-good only, in its own namespace, so the
+		-- global diagnostic signs in options.lua are left unchanged.
+		-- "✎" is one cell wide with no trailing space, to avoid the
+		-- Invalid 'sign_text' error.
+		local ns = require("lint").get_namespace("write_good")
+		vim.diagnostic.config({
+			signs = {
+				text = {
+					[vim.diagnostic.severity.WARN] = "✎",
+				},
+			},
+		}, ns)
+
 		local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
 		vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
 			group = lint_augroup,
@@ -18,13 +36,3 @@ return {
 		})
 	end,
 }
-
--- -- ~/.dotfiles/nvim/.config/nvim/lua/plugins/coding/nvim-lint.lua
---
--- return {
--- 	"mfussenegger/nvim-lint",
--- 	event = { "BufReadPost", "BufNewFile" },
--- 	config = function()
--- 		require("lint").linters_by_ft = {}
--- 	end,
--- }

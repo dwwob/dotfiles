@@ -1,3 +1,7 @@
+-- ~/.config/nvim/lua/plugins/snacks.lua
+-- =========================================================================
+-- Snacks (all-in-one utilities, pickers, and toggles)
+-- =========================================================================
 return {
 	"folke/snacks.nvim",
 	priority = 1000,
@@ -7,13 +11,10 @@ return {
 		bigfile = { enabled = true },
 		dashboard = { enabled = true },
 		explorer = { enabled = false },
-		indent = { enabled = true },
+		indent = { enabled = false },
 		input = { enabled = true },
 		lazygit = { enabled = true },
-		notifier = {
-			enabled = true,
-			timeout = 3000,
-		},
+		notifier = { enabled = false },
 		picker = { enabled = true },
 		quickfile = { enabled = true },
 		scope = { enabled = true },
@@ -63,21 +64,7 @@ return {
 			end,
 			desc = "Notification History",
 		},
-		{
-			"<leader>e",
-			function()
-				Snacks.explorer()
-			end,
-			desc = "File Explorer",
-		},
 		-- find
-		{
-			"<leader>fb",
-			function()
-				Snacks.picker.buffers()
-			end,
-			desc = "Buffers",
-		},
 		{
 			"<leader>fc",
 			function()
@@ -86,32 +73,11 @@ return {
 			desc = "Find Config File",
 		},
 		{
-			"<leader>ff",
-			function()
-				Snacks.picker.files()
-			end,
-			desc = "Find Files",
-		},
-		{
-			"<leader>fg",
-			function()
-				Snacks.picker.git_files()
-			end,
-			desc = "Find Git Files",
-		},
-		{
 			"<leader>fp",
 			function()
 				Snacks.picker.projects()
 			end,
 			desc = "Projects",
-		},
-		{
-			"<leader>fr",
-			function()
-				Snacks.picker.recent()
-			end,
-			desc = "Recent",
 		},
 		-- git
 		{
@@ -136,25 +102,11 @@ return {
 			desc = "Git Log Line",
 		},
 		{
-			"<leader>gs",
-			function()
-				Snacks.picker.git_status()
-			end,
-			desc = "Git Status",
-		},
-		{
 			"<leader>gS",
 			function()
 				Snacks.picker.git_stash()
 			end,
 			desc = "Git Stash",
-		},
-		{
-			"<leader>gd",
-			function()
-				Snacks.picker.git_diff()
-			end,
-			desc = "Git Diff (Hunks)",
 		},
 		{
 			"<leader>gf",
@@ -243,13 +195,6 @@ return {
 				Snacks.picker.autocmds()
 			end,
 			desc = "Autocmds",
-		},
-		{
-			"<leader>sb",
-			function()
-				Snacks.picker.lines()
-			end,
-			desc = "Buffer Lines",
 		},
 		{
 			"<leader>sc",
@@ -372,28 +317,6 @@ return {
 		},
 		-- LSP
 		{
-			"gd",
-			function()
-				Snacks.picker.lsp_definitions()
-			end,
-			desc = "Goto Definition",
-		},
-		{
-			"gD",
-			function()
-				Snacks.picker.lsp_declarations()
-			end,
-			desc = "Goto Declaration",
-		},
-		{
-			"gr",
-			function()
-				Snacks.picker.lsp_references()
-			end,
-			nowait = true,
-			desc = "References",
-		},
-		{
 			"gI",
 			function()
 				Snacks.picker.lsp_implementations()
@@ -465,13 +388,6 @@ return {
 			desc = "Select Scratch Buffer",
 		},
 		{
-			"<leader>n",
-			function()
-				Snacks.notifier.show_history()
-			end,
-			desc = "Notification History",
-		},
-		{
 			"<leader>bd",
 			function()
 				Snacks.bufdelete()
@@ -499,13 +415,6 @@ return {
 				Snacks.lazygit()
 			end,
 			desc = "Lazygit",
-		},
-		{
-			"<leader>un",
-			function()
-				Snacks.notifier.hide()
-			end,
-			desc = "Dismiss All Notifications",
 		},
 		{
 			"<c-/>",

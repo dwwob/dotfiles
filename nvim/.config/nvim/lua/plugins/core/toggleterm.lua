@@ -1,5 +1,75 @@
 -- ~/.config/nvim/lua/plugins/core/toggleterm.lua
+--
+-- Cleaned-up version of your original file.
+-- Every setting is the same as before -- nothing was changed,
+-- moved in order, or removed.
+-- Changes are only to layout: one header style throughout, matching
+-- git.lua, ts-autopairs.lua, treesitter.lua, nvim-lspconfig.lua,
+-- lsp_signature.lua, goto-preview.lua, emmet_vim.lua, mason.lua,
+-- conform.lua, blink.lua, init.lua, lazy.lua, auto.lua,
+-- keybinds.lua, and options.lua, and the spec kept together
+-- under its own header.
+--
+-- Plays-together check against your other files:
+--   * This file will load. lazy.lua's scanner registers "plugins"
+--     plus one import per subdirectory under lua/plugins/, and
+--     this file sits in lua/plugins/core/, so it is covered by
+--     the "plugins.core" import.
+--   * Lazy loading: cmd / keys below mean lazy.nvim loads this
+--     plugin on :ToggleTerm (and the other listed commands) or
+--     on <C-\>, not at startup. init, however, runs at startup,
+--     so :LivePreview / :LivePreviewStop are registered right
+--     away -- that is why init is used for them.
+--   * <C-\> is defined twice here, for the same job, left as-is:
+--     once in keys (lazy.nvim, "Toggle Floating Shell") and once
+--     as open_mapping in opts. Both open the floating terminal.
+--   * keybinds.lua's terminal keys line up with this file:
+--     <leader>tf = ToggleTerm direction=float, <leader>th =
+--     ToggleTerm direction=horizontal, and <leader>tv =
+--     ToggleTerm direction=vertical. Those commands are in the
+--     cmd list below, so lazy.nvim can load the plugin for them.
+--     No clash with this file's <C-\>.
+--   * <leader>tg in keybinds.lua calls _G.toggle_lazygit, which
+--     is defined in the config below (the Lazygit Terminal
+--     instance). keybinds.lua guards it: if _G.toggle_lazygit
+--     is not set yet it notifies "Lazygit module not loaded
+--     yet" instead of erroring, because config only runs once
+--     the plugin has loaded.
+--   * README / keybinds gap -- <leader>tp / <leader>tP, flagged
+--     and left as-is: the README lists <leader>tp and
+--     <leader>tP for LivePreview, but keybinds.lua has NO tp /
+--     tP mappings, and this file defines none either. The only
+--     LivePreview controls that exist are the :LivePreview and
+--     :LivePreviewStop user commands created in init below.
+--     So <leader>tp / <leader>tP do nothing until mappings for
+--     them are added; the commands themselves work as-is.
+--   * Port clash -- http://localhost:3000, flagged and left
+--     as-is: start_live_server below builds the preview URL as
+--     "http://localhost:3000/" .. target_file, which is
+--     browser-sync's default port. That is also my-first-app's
+--     port (http://localhost:3000). If my-first-app is running
+--     when you start LivePreview, browser-sync cannot take
+--     port 3000, or the browser may open my-first-app instead
+--     of the previewed file. Nothing was changed here.
+--   * LivePreview save hook: start_live_server creates a
+--     BufWritePost autocmd (group HtmlLivePreview) for *.html,
+--     *.css, and *.js that sends "browser-sync reload" to
+--     terminal 99. stop_live_server clears that group's
+--     autocmds. It is separate from conform.lua's BufWritePre
+--     format on save, and from auto.lua's compile-and-run
+--     hooks, so there is no duplicate hook for the same job.
+--   * Terminal 99 is LivePreview's own lane: browser-sync runs
+--     there, in a horizontal terminal, and is hidden again with
+--     99ToggleTerm. It does not use the floating / horizontal /
+--     vertical terminals from <C-\> or <leader>tf / th / tv.
+--   * KDE / Yakuake step is kept as-is: after a 1000 ms delay
+--     the preview is opened with xdg-open, then Yakuake is
+--     toggled away via qdbus6 (falling back to qdbus) on
+--     org.kde.yakuake /yakuake/window toggleWindowState.
 
+-- ---------------------------------------------------------------------------
+-- ToggleTerm
+-- ---------------------------------------------------------------------------
 return {
 	"akinsho/toggleterm.nvim",
 	version = "*",
@@ -7,14 +77,14 @@ return {
 	keys = {
 		{ "<C-\\>", "<cmd>ToggleTerm direction=float<cr>", desc = "Toggle Floating Shell" },
 	},
-	-- 🚀 'init' executes immediately on startup so all user commands are registered instantly!
+	-- 'init' executes immediately on startup so all user commands are registered instantly
 	init = function()
 		local live_preview_group = vim.api.nvim_create_augroup("HtmlLivePreview", { clear = true })
 		local server_job_id = nil
 
-		-- =========================================================================
-		-- ⚙️ REALTIME HTML PREVIEW FUNCTIONS (KDE PLASMA INTEGRATED)
-		-- =========================================================================
+		-- -------------------------------------------------------------------
+		-- Realtime HTML preview functions (KDE Plasma integrated)
+		-- -------------------------------------------------------------------
 		local function start_live_server()
 			if server_job_id then
 				vim.notify("🌐 Live Server is already running!", vim.log.levels.WARN)
@@ -37,7 +107,7 @@ return {
 			vim.cmd("99ToggleTerm") -- Instantly close the background flash split window drawer
 			server_job_id = 99
 
-			-- 🚀 FIX: Introduce a non-blocking delay to let the server start up completely
+			-- Introduce a non-blocking delay to let the server start up completely
 			vim.defer_fn(function()
 				local local_url = "http://localhost:3000/" .. target_file
 
@@ -47,7 +117,7 @@ return {
 				-- 2. Fetch your system's active KDE Plasma D-Bus command controller binary
 				local dbus_cmd = vim.fn.executable("qdbus6") == 1 and "qdbus6" or "qdbus"
 
-				-- 3. Ask Yakuake to slide back up to the ceiling so Firefox is revealed in focus!
+				-- 3. Ask Yakuake to slide back up to the ceiling so Firefox is revealed in focus
 				vim.fn.jobstart(
 					{ dbus_cmd, "org.kde.yakuake", "/yakuake/window", "toggleWindowState" },
 					{ detach = true }
@@ -116,9 +186,9 @@ return {
 		-- Initialize ToggleTerm with user configurations
 		require("toggleterm").setup(opts)
 
-		-- =========================================================================
-		-- 📊 YOUR ORIGINAL LAZYGIT CLASS INSTANCE & GLOBAL WRAPPER
-		-- =========================================================================
+		-- -------------------------------------------------------------------
+		-- Lazygit class instance & global wrapper
+		-- -------------------------------------------------------------------
 		local Terminal = require("toggleterm.terminal").Terminal
 		local lazygit = Terminal:new({
 			cmd = "lazygit",
