@@ -32,6 +32,7 @@ end
 -- Basics
 -- ---------------------------------------------------------------------------
 keymap("n", "<leader>w", ":w<CR>", opts("Save file"))
+keymap("n", "<leader>qa", "<cmd>q!<CR>", opts("Quit without saving"))
 keymap("n", "<leader>q", ":q<CR>", opts("Quit"))
 keymap("n", "<leader>cc", "gcc", opts("Toggle Comment", { remap = true }))
 keymap("n", "<leader>e", "<cmd>Neotree toggle<cr>", opts("Toggle File Explorer"))
