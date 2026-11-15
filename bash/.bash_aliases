@@ -150,14 +150,3 @@ wp-push() {
   echo "🚀 Source code successfully secured on GitHub!"
   popd >/dev/null
 }
-
-# # =========================================================================
-# # 🐧 CORE SYSTEM TERMINAL ALIASES & RESTRUCTURING DEFINITIONS
-# # =========================================================================#
-# fastfetch
-# # =========================================================================
-# # 🩺 MEDICAL & HEALTH WORKFLOW SHORTCUTS
-# # =========================================================================
-# # Instantly opens your Type 2 Diabetes Remission Plan inside Neovim
-# #
-#
