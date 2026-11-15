@@ -1,6 +1,6 @@
 -- ~/.config/nvim/lua/config/filetypes.lua
 --
--- Cleaned-up version of your original file.
+-- Cleaned-up version of the original file.
 -- Every filetype mapping is the same as before -- nothing was
 -- changed, moved in order, or removed.
 -- Changes are only to layout: one header style throughout, matching
