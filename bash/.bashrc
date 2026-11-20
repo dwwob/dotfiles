@@ -1,5 +1,4 @@
-#!/usr/bin/env bash
-# ~/.bashrc
+# ~/.dotfiles/bash/.bashrc
 
 # Sample .bashrc for SUSE Linux
 # Copyright (c) SUSE Software Solutions Germany GmbH
@@ -79,3 +78,4 @@ alias weather='curl -s "wttr.in/Paola,Kansas"'
 # =========================================================================
 
 eval "$(zoxide init bash)"
+alias tp='trash-put'

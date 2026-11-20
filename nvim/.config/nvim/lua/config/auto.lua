@@ -80,6 +80,18 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 
 			-- Pass execution payload straight into ToggleTerm's native Lua thread API
 			require("toggleterm").exec(final_payload, 100, nil, target_dir, "float")
+
+			vim.defer_fn(function()
+				for _, win in ipairs(vim.api.nvim_list_wins()) do
+					local buf = vim.api.nvim_win_get_buf(win)
+					if vim.bo[buf].buftype == "terminal" then
+						vim.api.nvim_set_current_win(win)
+						vim.cmd("startinsert")
+						break
+					end
+				end
+			end, 100)
+			--
 		end
 	end,
 })

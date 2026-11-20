@@ -1,3 +1,5 @@
+#!/usr/bin/env sh 
+# ~/dotfiles/bash/Powerline-go
 # ==============================================================================
 # Powerline-go Initialization Configuration
 # Optimized for Bash, openSUSE Tumbleweed, and Nerd Fonts

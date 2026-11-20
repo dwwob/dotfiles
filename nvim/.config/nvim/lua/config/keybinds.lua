@@ -43,14 +43,26 @@ keymap({ "i", "v" }, "jk", "<Esc>", opts("Exit Insert mode", { noremap = true })
 -- Toggles (<leader>t)
 -- ---------------------------------------------------------------------------
 keymap("n", "<leader>tD", function()
-	if vim.diagnostic.is_paused() then
-		vim.diagnostic.resume()
+	if vim.diagnostic.is_disabled() then
+		vim.diagnostic.enable()
 		vim.notify("👁️ Diagnostics Visible", vim.log.levels.INFO)
 	else
-		vim.diagnostic.pause()
+		vim.diagnostic.disable()
 		vim.notify("🙈 Diagnostics Hidden", vim.log.levels.INFO)
 	end
 end, opts("Toggle Inline LSP Diagnostics"))
+--
+--
+--
+-- keymap("n", "<leader>tD", function()
+-- 	if vim.diagnostic.is_paused() then
+-- 		vim.diagnostic.resume()
+-- 		vim.notify("👁️ Diagnostics Visible", vim.log.levels.INFO)
+-- 	else
+-- 		vim.diagnostic.pause()
+-- 		vim.notify("🙈 Diagnostics Hidden", vim.log.levels.INFO)
+-- 	end
+-- end, opts("Toggle Inline LSP Diagnostics"))
 
 keymap("n", "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", opts("Toggle Floating Terminal Shell"))
 keymap("n", "<leader>tg", function()

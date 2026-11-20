@@ -1,3 +1,4 @@
+# ~/.dotfiles/bash/.bash_aliases
 # Bash Aliases & Functions
 # =========================================================================
 
@@ -64,7 +65,7 @@ alias grep="grep --color=auto"
 # =========================================================================
 # Environment Safety Nets (Confirm Changes)
 # =========================================================================
-alias rm="rm -i"
+alias rmi="rm -i"
 alias cp="cp -i"
 alias mv="mv -i"
 

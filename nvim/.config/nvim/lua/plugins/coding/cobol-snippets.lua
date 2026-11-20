@@ -1,8 +1,12 @@
--- ~/.config/nvim/lua/plugins/coding/cobol_snippets.lua
+-- ~/.dotfiles/nvim/.config/nvim/lua/plugins/coding/cobol_snippets.lua
+--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--+ AUTHOR DANIEL W WOBKER & Muse AI for correction's checking, +
+--+ cleanup and to make the file more readable                  +
+--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --
 -- Cleaned-up version of your original file, with two fixes applied:
 --   * Boilerplate shortcut moved from <leader>cc to <leader>cb so it
---     no longer clashes with keybinds.lua's <leader>cc toggle comment.
+--     no longer clashes with keybinds.lua <leader>cc toggle comment.
 --   * Boilerplate now inserts at the cursor line instead of
 --     replacing the whole buffer, so existing contents are kept.
 -- Everything else is the same as before -- nothing was moved in
@@ -13,7 +17,7 @@
 --
 -- Plays-together check against your other files:
 --   * This file will load. lazy.lua's scanner registers "plugins"
---     plus one import per subdirectory under lua/plugins/, and
+--     plus one import per sub directory under lua/plugins/, and
 --     this file sits in lua/plugins/coding/ in your tree, so it
 --     is covered by the "plugins.coding" import.
 --   * Second spec for the same plugin: this is another spec for

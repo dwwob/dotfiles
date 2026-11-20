@@ -1,4 +1,4 @@
--- ~/.config/nvim/lua/plugins/coding/blink.lua
+-- ~/.dotfiles/nvim/.config/nvim/lua/plugins/coding/blink.lua
 --
 -- Cleaned-up version of original file.
 -- Every setting is the same as before -- nothing was changed,
